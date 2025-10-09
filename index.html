@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEO Text Generator</title>
+    <title>AA - AykolinoApps - SEO Text Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -393,8 +393,19 @@
                 copyBtn.style.display = 'inline-block';
             }, 2000);
         });
-
+       // Marquee Title Effect
+        (function() {
+            const originalTitle = document.title + " ";
+            let titleText = originalTitle;
+            function marquee() {
+                titleText = titleText.substring(1, titleText.length) + titleText.substring(0, 1);
+                document.title = titleText;
+            }
+            setInterval(marquee, 300); // Speed in milliseconds
+        })();
+        
     </script>
 </body>
 </html>
+
 
