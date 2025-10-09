@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Text Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .loader {
+            border: 8px solid #4b5563; /* slate-600 */
+            border-top-color: #3b82f6; /* blue-500 */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #closeTutorialBtn {
+            font-size: 2rem;
+            line-height: 1;
+        }
+        /* Custom scrollbar for modal */
+        .modal-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .modal-scrollbar::-webkit-scrollbar-track {
+            background: #1f2937; /* slate-800 */
+        }
+        .modal-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #4b5563; /* slate-600 */
+            border-radius: 4px;
+        }
+        /* Custom arrow for select dropdown */
+        select#language {
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%239ca3af'%3e%3cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em;
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300 flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-3xl mx-auto">
+        <div class="bg-slate-800 rounded-xl shadow-2xl p-6 sm:p-8 border border-slate-700">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl md:text-4xl font-bold text-white">SEO Text Generator</h1>
+                <p class="text-slate-400 mt-2">Geben Sie Ihre Stichpunkte ein, wählen Sie eine Sprache und erhalten Sie einen optimierten Text.</p>
+            </header>
+
+            <main>
+                 <!-- API Key Section (Collapsible) -->
+                <div class="bg-slate-900 border border-slate-700 rounded-lg mb-8">
+                    <button id="toggleApiKeyBtn" class="w-full p-4 flex justify-between items-center text-left focus:outline-none">
+                        <span class="text-lg font-semibold text-white">API-Schlüssel-Einstellungen</span>
+                        <svg id="apiKeyChevron" class="w-6 h-6 text-slate-400 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div id="apiKeyContent" class="hidden">
+                        <div class="p-4 border-t border-slate-700 space-y-4">
+                            <div class="flex flex-col sm:flex-row gap-2">
+                                <input type="password" id="apiKeyInput" class="w-full p-3 bg-slate-700 border-2 border-slate-600 rounded-lg text-slate-300 focus:ring-2 focus:ring-pink-500" placeholder="API-Schlüssel hier einfügen...">
+                                <button id="saveApiKeyBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">Speichern</button>
+                            </div>
+                            <div class="text-xs text-slate-400 space-y-2">
+                                <p>
+                                    Keinen Schlüssel? <a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline hover:text-pink-400">Hier kostenlos erstellen.</a>
+                                    <button id="showTutorialBtn" class="underline hover:text-pink-400 ml-2">(Anleitung)</button>
+                                </p>
+                                <p class="font-semibold text-slate-300">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd" /></svg>
+                                    Datenschutzhinweis: Ihr Schlüssel wird NUR in Ihrem Browser gespeichert und NIEMALS an einen Server gesendet.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Input Section -->
+                <div class="space-y-6">
+                    <div>
+                        <label for="keywords" class="block text-lg font-semibold mb-3 text-white">Ihre Stichpunkte (jeder Punkt in einer neuen Zeile):</label>
+                        <textarea id="keywords" rows="6" class="w-full p-3 bg-slate-900 border-2 border-slate-700 rounded-lg text-slate-300 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-shadow" placeholder="z.B.
+- Vorteile von Solarenergie
+- Kostenersparnis
+- Umweltfreundlich
+- Unabhängigkeit vom Stromnetz"></textarea>
+                    </div>
+
+                    <div>
+                        <label for="language" class="block text-lg font-semibold mb-3 text-white">Zielsprache:</label>
+                        <select id="language" class="w-full p-3 bg-slate-700 text-white border-2 border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200">
+                            <option value="German">Deutsch</option>
+                            <option value="English">Englisch</option>
+                            <option value="Spanish">Spanisch</option>
+                            <option value="French">Französisch</option>
+                            <option value="Italian">Italienisch</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Action Button -->
+                <div class="mt-8 text-center">
+                    <button id="generateBtn" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 shadow-lg">
+                        <span id="btn-text">Text generieren</span>
+                    </button>
+                </div>
+
+                <!-- Loading Indicator -->
+                <div id="loader" class="hidden flex flex-col items-center justify-center mt-8">
+                    <div class="loader"></div>
+                    <p class="text-slate-400 mt-4">Generiere Text... Bitte haben Sie einen Moment Geduld.</p>
+                </div>
+
+                <!-- Output Section -->
+                <div id="resultContainer" class="hidden mt-10">
+                    <div class="border-t border-slate-700 pt-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-2xl font-bold text-white">Ihr SEO-optimierter Text</h2>
+                            <button id="copyBtn" class="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-1 px-3 rounded-md transition duration-200">
+                                Kopieren
+                            </button>
+                            <span id="copyFeedback" class="text-green-400 font-medium hidden">Kopiert!</span>
+                        </div>
+                        <div id="output" class="p-4 bg-slate-900 border-2 border-slate-700 rounded-lg min-h-[200px] whitespace-pre-wrap text-slate-300 leading-relaxed"></div>
+                    </div>
+                </div>
+
+                 <!-- Error Message -->
+                <div id="errorContainer" class="hidden mt-8 text-center p-4 bg-red-900 bg-opacity-30 text-red-400 border border-red-500 rounded-lg">
+                    <p id="errorMessage"></p>
+                </div>
+
+            </main>
+        </div>
+        <footer class="mt-6 text-slate-500 text-sm flex justify-between items-center px-2">
+            <div>Version 1.04</div>
+            <div>©AykolinoApps</div>
+        </footer>
+    </div>
+    
+    <!-- Tutorial Modal -->
+    <div id="tutorialModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-slate-800 rounded-lg shadow-xl p-6 sm:p-8 border border-slate-700 max-w-2xl w-full max-h-[90vh] overflow-y-auto modal-scrollbar">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-white">Anleitung: Google API-Schlüssel erhalten</h2>
+                <button id="closeTutorialBtn" class="text-slate-400 hover:text-white">&times;</button>
+            </div>
+            <div class="space-y-5 text-slate-300">
+                <p>Folgen Sie diesen einfachen Schritten, um Ihren kostenlosen Google API-Schlüssel zu erhalten:</p>
+                <ol class="list-decimal list-inside space-y-4">
+                    <li>
+                        <strong>Google AI Studio besuchen:</strong>
+                        <br>
+                        <span class="text-sm text-slate-400">
+                        Öffnen Sie den Link <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-pink-400 underline">aistudio.google.com/app/apikey</a> in einem neuen Tab. Melden Sie sich mit Ihrem Google-Konto an, falls Sie dazu aufgefordert werden.
+                        </span>
+                    </li>
+                    <li>
+                        <strong>Neuen API-Schlüssel erstellen:</strong>
+                        <br>
+                        <span class="text-sm text-slate-400">
+                        Klicken Sie auf die Schaltfläche <strong class="text-blue-400">"Create API key in new project"</strong>.
+                        </span>
+                    </li>
+                    <li>
+                        <strong>API-Schlüssel kopieren:</strong>
+                        <br>
+                         <span class="text-sm text-slate-400">
+                        Es erscheint ein Fenster mit Ihrem neuen Schlüssel. Klicken Sie auf das Kopieren-Symbol, um den gesamten Schlüssel in Ihre Zwischenablage zu kopieren.
+                         </span>
+                    </li>
+                    <li>
+                        <strong>Schlüssel einfügen und speichern:</strong>
+                        <br>
+                         <span class="text-sm text-slate-400">
+                        Kehren Sie zu dieser Seite zurück, fügen Sie den kopierten Schlüssel in das Eingabefeld ein und klicken Sie auf "Speichern". Fertig!
+                         </span>
+                    </li>
+                </ol>
+                <div class="mt-6 p-3 bg-slate-700 rounded-lg text-sm">
+                     <p class="font-semibold text-slate-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd" /></svg>
+                        Wichtiger Datenschutzhinweis:
+                    </p>
+                    <p class="text-slate-300 mt-1">
+                        Ihr API-Schlüssel wird ausschließlich in Ihrem Browser (`localStorage`) gespeichert. Er verlässt niemals Ihren Computer und wird an keinen Server gesendet.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        // DOM Elements
+        const apiKeyInput = document.getElementById('apiKeyInput');
+        const saveApiKeyBtn = document.getElementById('saveApiKeyBtn');
+        const keywordsInput = document.getElementById('keywords');
+        const languageSelect = document.getElementById('language');
+        const generateBtn = document.getElementById('generateBtn');
+        const btnText = document.getElementById('btn-text');
+        const loader = document.getElementById('loader');
+        const resultContainer = document.getElementById('resultContainer');
+        const outputDiv = document.getElementById('output');
+        const copyBtn = document.getElementById('copyBtn');
+        const copyFeedback = document.getElementById('copyFeedback');
+        const errorContainer = document.getElementById('errorContainer');
+        const errorMessage = document.getElementById('errorMessage');
+        const showTutorialBtn = document.getElementById('showTutorialBtn');
+        const closeTutorialBtn = document.getElementById('closeTutorialBtn');
+        const tutorialModal = document.getElementById('tutorialModal');
+        const toggleApiKeyBtn = document.getElementById('toggleApiKeyBtn');
+        const apiKeyContent = document.getElementById('apiKeyContent');
+        const apiKeyChevron = document.getElementById('apiKeyChevron');
+
+        // --- API Key Accordion Logic ---
+        toggleApiKeyBtn.addEventListener('click', () => {
+            apiKeyContent.classList.toggle('hidden');
+            apiKeyChevron.classList.toggle('rotate-180');
+        });
+
+        // --- Tutorial Modal Logic ---
+        showTutorialBtn.addEventListener('click', () => {
+            tutorialModal.classList.remove('hidden');
+        });
+        closeTutorialBtn.addEventListener('click', () => {
+            tutorialModal.classList.add('hidden');
+        });
+        tutorialModal.addEventListener('click', (event) => {
+            if (event.target === tutorialModal) {
+                tutorialModal.classList.add('hidden');
+            }
+        });
+
+
+        // --- API Key Logic ---
+        const loadApiKey = () => {
+            const savedKey = localStorage.getItem('googleApiKey');
+            if (savedKey) {
+                apiKeyInput.value = savedKey;
+            }
+        };
+
+        saveApiKeyBtn.addEventListener('click', () => {
+            const key = apiKeyInput.value.trim();
+            if (key) {
+                localStorage.setItem('googleApiKey', key);
+                alert('API-Schlüssel gespeichert!');
+            } else {
+                alert('Bitte geben Sie einen API-Schlüssel ein.');
+            }
+        });
+        
+        // Load API key on page start
+        loadApiKey();
+
+
+        // --- Gemini API Call Logic ---
+        const callGeminiApi = async (prompt, retries = 3, delay = 1000) => {
+            const apiKey = apiKeyInput.value.trim();
+            if (!apiKey) {
+                throw new Error("Bitte speichern Sie zuerst einen gültigen Google API-Schlüssel.");
+            }
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            const systemPrompt = `Act as an expert SEO copywriter. Your task is to write a well-structured, fluent, and SEO-optimized informational text based on the provided bullet points. The text should be engaging for readers and optimized for search engines. Use headings (like H2, H3), paragraphs, and lists where appropriate to structure the content logically. Integrate the given keywords naturally throughout the text. The final output must be only the generated text, without any additional explanations or introductions from you. The output language must be the one specified by the user.`;
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+            };
+
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        if (response.status === 403 || response.status === 400) {
+                             throw new Error(`API Error ${response.status}: Zugriff verweigert. Überprüfen Sie bitte Ihren API-Schlüssel.`);
+                        }
+                        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    if (!result.candidates || !result.candidates[0].content || !result.candidates[0].content.parts[0].text) {
+                       throw new Error("Ungültige API-Antwortstruktur.");
+                    }
+                    
+                    return result;
+
+                } catch (error) {
+                    console.error(`Attempt ${i + 1} failed:`, error);
+                    if (i === retries - 1) {
+                        throw error;
+                    }
+                    await new Promise(resolve => setTimeout(resolve, delay * Math.pow(2, i)));
+                }
+            }
+        };
+
+        // --- UI Logic ---
+        
+        const setLoadingState = (isLoading) => {
+            if (isLoading) {
+                generateBtn.disabled = true;
+                btnText.textContent = "Generiere...";
+                loader.classList.remove('hidden');
+                resultContainer.classList.add('hidden');
+                errorContainer.classList.add('hidden');
+            } else {
+                generateBtn.disabled = false;
+                btnText.textContent = "Text generieren";
+                loader.classList.add('hidden');
+            }
+        };
+
+        const displayError = (message) => {
+            errorMessage.textContent = `Ein Fehler ist aufgetreten: ${message}`;
+            errorContainer.classList.remove('hidden');
+        };
+
+        const displayResult = (result) => {
+            const candidate = result.candidates[0];
+            const text = candidate.content.parts[0].text;
+            outputDiv.textContent = text;
+            resultContainer.classList.remove('hidden');
+            resultContainer.classList.add('fade-in');
+        };
+
+        // --- Event Listeners ---
+
+        generateBtn.addEventListener('click', async () => {
+            const keywords = keywordsInput.value.trim();
+            const language = languageSelect.value;
+
+            if (!keywords) {
+                displayError("Bitte geben Sie einige Stichpunkte ein.");
+                return;
+            }
+
+            setLoadingState(true);
+
+            const userPrompt = `Based on the following bullet points, please write a comprehensive and SEO-optimized informational text in ${language}. The bullet points are:\n\n${keywords}`;
+
+            try {
+                const result = await callGeminiApi(userPrompt);
+                displayResult(result);
+            } catch (error) {
+                console.error("Failed to generate text:", error);
+                displayError(error.message);
+            } finally {
+                setLoadingState(false);
+            }
+        });
+
+        copyBtn.addEventListener('click', () => {
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = outputDiv.textContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            copyFeedback.classList.remove('hidden');
+            copyBtn.style.display = 'none';
+            setTimeout(() => {
+                copyFeedback.classList.add('hidden');
+                copyBtn.style.display = 'inline-block';
+            }, 2000);
+        });
+
+    </script>
+</body>
+</html>
+
