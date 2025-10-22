@@ -1,91 +1,246 @@
 <!DOCTYPE html>
-<html lang="de">
-<head>
+<html lang="de" class="scroll-smooth"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AA - AykolinoApps - SEO Text Generator</title>
+    <title>MBUPS - ©AykolinoApps</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
+
     <style>
+        /* Globale Stile & Animationen */
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #f5f5f5;
+            overflow-x: hidden;
         }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
+
+        .gradient-text {
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .card {
+            background-color: rgba(23, 23, 23, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease-in-out;
         }
-        .loader {
-            border: 8px solid #4b5563; /* slate-600 */
-            border-top-color: #3b82f6; /* blue-500 */
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border-color: rgba(139, 92, 246, 0.5); /* Violet-500 */
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .glow-effect {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.15) 0%, rgba(139, 92, 246, 0) 60%);
+            animation: rotateGlow 15s linear infinite;
         }
-        #closeTutorialBtn {
-            font-size: 2rem;
-            line-height: 1;
+
+        @keyframes rotateGlow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
-        /* Custom scrollbar for modal */
-        .modal-scrollbar::-webkit-scrollbar {
-            width: 8px;
+
+        /* Scroll-in Animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        .modal-scrollbar::-webkit-scrollbar-track {
-            background: #1f2937; /* slate-800 */
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
-        .modal-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #4b5563; /* slate-600 */
-            border-radius: 4px;
+
+        /* Header Stile */
+        .header {
+            animation: fadeInDown 0.8s ease-out;
         }
-        /* Custom arrow for select dropdown */
-        select#language {
-            -webkit-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%239ca3af'%3e%3cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3e%3c/svg%3e");
-            background-position: right 0.5rem center;
-            background-repeat: no-repeat;
-            background-size: 1.5em;
+
+        .header-scrolled {
+            background-color: rgba(10, 10, 10, 0.7);
+            border-bottom-color: rgba(255, 255, 255, 0.1);
         }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- NEUE & VERBESSERTE Sprachauswahl Stile --- */
+        .lang-switcher-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background-color: #111827; /* bg-gray-900 */
+            border-radius: 0.5rem; /* rounded-lg */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            width: 160px; /* Etwas breiter für die Flaggen */
+            z-index: 60;
+            overflow: hidden;
+            /* Animations-Eigenschaften */
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: opacity 0.2s ease-out, transform 0.2s ease-out, visibility 0.2s;
+        }
+
+        .lang-switcher-dropdown.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* --- Logo Animationen --- */
+        .logo-utm { position: relative; width: 80px; height: 80px; }
+        .utm-center { position: absolute; width: 16px; height: 16px; background-color: #3b82f6; border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%); animation: pulse 2s infinite ease-in-out; }
+        .utm-dot { position: absolute; width: 8px; height: 8px; background-color: #a78bfa; border-radius: 50%; top: 50%; left: 50%; margin: -4px; }
+        .utm-dot:nth-child(2) { animation: utm-orbit 4s infinite linear; animation-delay: 0s; }
+        .utm-dot:nth-child(3) { animation: utm-orbit 4s infinite linear; animation-delay: -1s; }
+        .utm-dot:nth-child(4) { animation: utm-orbit 4s infinite linear; animation-delay: -2s; }
+        .utm-dot:nth-child(5) { animation: utm-orbit 4s infinite linear; animation-delay: -3s; }
+        @keyframes pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); } 50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 20px 10px rgba(59, 130, 246, 0); } }
+        @keyframes utm-orbit { from { transform: rotate(0deg) translateX(30px) rotate(0deg); } to { transform: rotate(360deg) translateX(30px) rotate(-360deg); } }
+        .logo-html { width: 80px; height: 80px; display: flex; align-items: center; justify-content: space-between; font-size: 2.5rem; font-weight: bold; color: #ec4899; }
+        .html-arrow { font-size: 1.5rem; animation: html-translate 2s infinite ease-in-out; color: #f5f5f5; }
+        @keyframes html-translate { 0%, 100% { transform: translateX(0); opacity: 0.7; } 50% { transform: translateX(8px) scale(1.1); opacity: 1; } }
+        .logo-excel { width: 80px; height: 80px; display: flex; justify-content: center; align-items: center; gap: 8px; }
+        .excel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; width: 30px; height: 40px; }
+        .excel-cell { width: 8px; height: 8px; background-color: #10b981; border-radius: 1px; opacity: 0.6; }
+        .excel-grid .excel-cell:nth-child(2) { background-color: #3b82f6; } .excel-grid .excel-cell:nth-child(5) { animation: excel-blink 2.5s infinite; animation-delay: 0.5s; } .excel-grid .excel-cell:nth-child(8) { background-color: #f97316; }
+        @keyframes excel-blink { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.4); opacity: 1; } }
+        .logo-an { width: 80px; height: 80px; background-color: rgba(255,255,255,0.05); border-radius: 8px; font-family: 'Courier New', Courier, monospace; font-size: 1.5rem; color: #facc15; overflow: hidden; }
+        .an-reel { animation: an-scroll-reel 4.5s infinite; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
+        .an-number-item { height: 80px; display: flex; justify-content: center; align-items: center; }
+        @keyframes an-scroll-reel { 0%, 25% { transform: translateY(0); } 30%, 55% { transform: translateY(-80px); } 60%, 85% { transform: translateY(-160px); } 90%, 100% { transform: translateY(-240px); } }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-300 flex items-center justify-center min-h-screen p-4">
+<body class="" style=""><div class="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden">
+        <div class="glow-effect"></div>
+    </div><div class="container mx-auto px-4 sm:px-6 lg:px-8"><nav id="main-header" class="header fixed top-0 left-0 w-full z-50 backdrop-blur-md border-b border-transparent transition-colors duration-300">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <a href="https://aykolino.de" class="text-2xl font-bold tracking-tight text-white">
+                        Aykolino<span class="gradient-text">Apps</span>
+                    </a>
 
-    <div class="w-full max-w-3xl mx-auto">
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:flex items-center space-x-8">
+                        <a href="https://uebermich.aykolino.de" class="text-gray-300 hover:text-white transition-colors" data-translate-key="navAbout">Über mich</a>
+                        <a href="mailto:ayko.tiedtke2@yahoo.de" class="text-gray-300 hover:text-white transition-colors" data-translate-key="navContact">Kontakt</a>
+                        
+                        <!-- Sprachauswahl -->
+                        <div class="relative lang-switcher">
+                            <button id="lang-switcher-button" class="flex items-center text-gray-300 hover:text-white transition-colors">
+                                <img id="current-flag-desktop" src="" alt="Language flag" class="w-5 h-auto mr-2 rounded-sm object-cover">
+                                <span id="current-lang-desktop">DE</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            </button>
+                            <div id="lang-switcher-dropdown" class="lang-switcher-dropdown p-2 space-y-1">
+                                <a href="#" class="flex items-center w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md transition-colors" onclick="setLanguage('de', event)">
+                                    <img src="https://flagcdn.com/w40/de.png" alt="German flag" class="w-5 h-auto mr-3 rounded-sm">
+                                    <span>Deutsch</span>
+                                </a>
+                                <a href="#" class="flex items-center w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md transition-colors" onclick="setLanguage('en', event)">
+                                    <img src="https://flagcdn.com/w40/gb.png" alt="British flag" class="w-5 h-auto mr-3 rounded-sm">
+                                    <span>English</span>
+                                </a>
+                                <a href="#" class="flex items-center w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md transition-colors" onclick="setLanguage('fr', event)">
+                                    <img src="https://flagcdn.com/w40/fr.png" alt="French flag" class="w-5 h-auto mr-3 rounded-sm">
+                                    <span>Français</span>
+                                </a>
+                                <a href="#" class="flex items-center w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md transition-colors" onclick="setLanguage('es', event)">
+                                     <img src="https://flagcdn.com/w40/es.png" alt="Spanish flag" class="w-5 h-auto mr-3 rounded-sm">
+                                    <span>Español</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Mobile Menu Button -->
+                    <div class="md:hidden">
+                        <button id="mobile-menu-button" class="text-white">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden">
+                <a href="https://uebermich.aykolino.de" class="block py-3 px-4 text-sm text-gray-200 hover:bg-gray-800" data-translate-key="navAbout">Über mich</a>
+                <a href="mailto:ayko.tiedtke2@yahoo.de" class="block py-3 px-4 text-sm text-gray-200 hover:bg-gray-800" data-translate-key="navContact">Kontakt</a>
+                <div class="px-4 pt-3 pb-1 border-t border-gray-700">
+                    <p class="text-xs text-gray-400 mb-2" data-translate-key="languageLabelMobile">Sprache:</p>
+                    <a href="#" class="flex items-center w-full py-2 text-sm text-gray-200 hover:bg-gray-800" onclick="setLanguage('de', event)">
+                         <img src="https://flagcdn.com/w40/de.png" alt="German flag" class="w-5 h-auto mr-3 rounded-sm"> Deutsch
+                    </a>
+                    <a href="#" class="flex items-center w-full py-2 text-sm text-gray-200 hover:bg-gray-800" onclick="setLanguage('en', event)">
+                         <img src="https://flagcdn.com/w40/gb.png" alt="British flag" class="w-5 h-auto mr-3 rounded-sm"> English
+                    </a>
+                    <a href="#" class="flex items-center w-full py-2 text-sm text-gray-200 hover:bg-gray-800" onclick="setLanguage('fr', event)">
+                         <img src="https://flagcdn.com/w40/fr.png" alt="French flag" class="w-5 h-auto mr-3 rounded-sm"> Français
+                    </a>
+                    <a href="#" class="flex items-center w-full py-2 text-sm text-gray-200 hover:bg-gray-800" onclick="setLanguage('es', event)">
+                         <img src="https://flagcdn.com/w40/es.png" alt="Spanish flag" class="w-5 h-auto mr-3 rounded-sm"> Español
+                    </a>
+                </div>
+            </div>
+        </nav><main class="pt-24 flex flex-col items-center"><div class="w-full max-w-3xl mx-auto">
         <div class="bg-slate-800 rounded-xl shadow-2xl p-6 sm:p-8 border border-slate-700">
             <header class="text-center mb-8">
-                <h1 class="text-3xl md:text-4xl font-bold text-white">SEO Text Generator</h1>
-                <p class="text-slate-400 mt-2">Geben Sie Ihre Stichpunkte ein, wählen Sie eine Sprache und erhalten Sie einen optimierten Text.</p>
+                <h1 class="text-3xl md:text-4xl font-bold text-white" data-translate-key="seoTextGeneratorTitle">SEO Text Generator</h1>
+                <p class="text-slate-400 mt-2" data-translate-key="seoTextGeneratorSubtitle">Geben Sie Ihre Stichpunkte ein, wählen Sie eine Sprache und erhalten Sie einen optimierten Text.</p>
             </header>
 
             <main>
                  <!-- API Key Section (Collapsible) -->
                 <div class="bg-slate-900 border border-slate-700 rounded-lg mb-8">
-                    <button id="toggleApiKeyBtn" class="w-full p-4 flex justify-between items-center text-left focus:outline-none">
-                        <span class="text-lg font-semibold text-white">API-Schlüssel-Einstellungen</span>
-                        <svg id="apiKeyChevron" class="w-6 h-6 text-slate-400 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    <button id="toggleApiKeyBtn" class="w-full p-4 flex justify-between items-center text-left focus:outline-none group hover:bg-slate-800 rounded-lg transition-colors duration-200">
+                        <span class="text-lg font-semibold text-white" data-translate-key="apiSettings">API-Schlüssel-Einstellungen</span>
+                        <svg id="apiKeyChevron" class="w-6 h-6 text-slate-400 group-hover:text-slate-200 transition-all duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
                     <div id="apiKeyContent" class="hidden">
                         <div class="p-4 border-t border-slate-700 space-y-4">
                             <div class="flex flex-col sm:flex-row gap-2">
-                                <input type="password" id="apiKeyInput" class="w-full p-3 bg-slate-700 border-2 border-slate-600 rounded-lg text-slate-300 focus:ring-2 focus:ring-pink-500" placeholder="API-Schlüssel hier einfügen...">
-                                <button id="saveApiKeyBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">Speichern</button>
+                                <input type="password" id="apiKeyInput" class="w-full p-3 bg-slate-700 border-2 border-slate-600 rounded-lg text-slate-300 focus:ring-2 focus:ring-pink-500" placeholder="API-Schlüssel hier einfügen..." data-translate-key-placeholder="apiKeyPlaceholder">
+                                <button id="saveApiKeyBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200" data-translate-key="saveButton">Speichern</button>
                             </div>
                             <div class="text-xs text-slate-400 space-y-2">
                                 <p>
-                                    Keinen Schlüssel? <a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline hover:text-pink-400">Hier kostenlos erstellen.</a>
-                                    <button id="showTutorialBtn" class="underline hover:text-pink-400 ml-2">(Anleitung)</button>
+                                    <span data-translate-key="noKeyQuestion">Keinen Schlüssel?</span> <a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline hover:text-pink-400" data-translate-key="createHereLink" data-translate-href-key="getGoogleApiKeyLink">Hier kostenlos erstellen.</a>
+                                    <button id="showTutorialBtn" class="underline hover:text-pink-400 ml-2" data-translate-key="instructionsLink">(Anleitung)</button>
                                 </p>
-                                <p class="font-semibold text-slate-300">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd" /></svg>
+                                <p class="font-semibold text-slate-300" data-translate-key="privacyNotice">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"></path></svg>
                                     Datenschutzhinweis: Ihr Schlüssel wird NUR in Ihrem Browser gespeichert und NIEMALS an einen Server gesendet.
                                 </p>
                             </div>
@@ -96,37 +251,46 @@
                 <!-- Input Section -->
                 <div class="space-y-6">
                     <div>
-                        <label for="keywords" class="block text-lg font-semibold mb-3 text-white">Ihre Stichpunkte (jeder Punkt in einer neuen Zeile):</label>
+                        <label for="keywords" class="block text-lg font-semibold mb-3 text-white" data-translate-key="keywordsLabel">Ihre Stichpunkte (jeder Punkt in einer neuen Zeile):</label>
                         <textarea id="keywords" rows="6" class="w-full p-3 bg-slate-900 border-2 border-slate-700 rounded-lg text-slate-300 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-shadow" placeholder="z.B.
 - Vorteile von Solarenergie
 - Kostenersparnis
 - Umweltfreundlich
-- Unabhängigkeit vom Stromnetz"></textarea>
+- Unabhängigkeit vom Stromnetz" data-translate-key-placeholder="keywordsPlaceholder"></textarea>
                     </div>
 
                     <div>
-                        <label for="language" class="block text-lg font-semibold mb-3 text-white">Zielsprache:</label>
-                        <select id="language" class="w-full p-3 bg-slate-700 text-white border-2 border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200">
-                            <option value="German">Deutsch</option>
-                            <option value="English">Englisch</option>
-                            <option value="Spanish">Spanisch</option>
-                            <option value="French">Französisch</option>
-                            <option value="Italian">Italienisch</option>
-                        </select>
+                        <label for="language" class="block text-lg font-semibold mb-3 text-white" data-translate-key="targetLanguageLabel">Zielsprache:</label>
+                        <!-- HINZUGEFÜGT: Relativer Container, um den neuen Pfeil zu positionieren -->
+                        <div class="relative w-full">
+                            <select id="language" class="w-full p-3 pr-12 bg-slate-700 text-white border-2 border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200 appearance-none">
+                                <option value="German" data-translate-key="languageGerman">Deutsch</option>
+                                <option value="English" data-translate-key="languageEnglish">Englisch</option>
+                                <option value="French" data-translate-key="languageFrench">Französisch</option>
+                                <option value="Italian" data-translate-key="languageItalian">Italienisch</option>
+                            </select>
+                            <!-- HINZUGEFÜGT: Eigener Pfeil, der nicht auf Hover reagiert -->
+                            <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                                <svg class="w-5 h-5 text-slate-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Action Button -->
-                <div class="mt-8 text-center">
+                <div class="mt-8 text-center"> <!-- FEHLER BEHOBEN: data-translate-key von hier entfernt -->
                     <button id="generateBtn" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 shadow-lg">
-                        <span id="btn-text">Text generieren</span>
+                        <span id="btn-text" data-translate-key="generateTextButton">Text generieren</span>
                     </button>
                 </div>
 
                 <!-- Loading Indicator -->
                 <div id="loader" class="hidden flex flex-col items-center justify-center mt-8">
                     <div class="loader"></div>
-                    <p class="text-slate-400 mt-4">Generiere Text... Bitte haben Sie einen Moment Geduld.</p>
+                    <!-- HINZUGEFÜGT: data-translate-key für den Lade-Text -->
+                    <p class="text-slate-400 mt-4" data-translate-key="generatingTextDots">Generiere Text... Bitte haben Sie einen Moment Geduld.</p>
                 </div>
 
                 <!-- Output Section -->
@@ -134,7 +298,7 @@
                     <div class="border-t border-slate-700 pt-6">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-2xl font-bold text-white">Ihr SEO-optimierter Text</h2>
-                            <button id="copyBtn" class="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-1 px-3 rounded-md transition duration-200">
+                            <button id="copyBtn" class="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-1 px-3 rounded-md transition duration-200" data-translate-key="copyButton">
                                 Kopieren
                             </button>
                             <span id="copyFeedback" class="text-green-400 font-medium hidden">Kopiert!</span>
@@ -154,62 +318,476 @@
             <div>Version 1.04</div>
             <div>©AykolinoApps</div>
         </footer>
-    </div>
-    
-    <!-- Tutorial Modal -->
-    <div id="tutorialModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+    </div><div id="tutorialModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
         <div class="bg-slate-800 rounded-lg shadow-xl p-6 sm:p-8 border border-slate-700 max-w-2xl w-full max-h-[90vh] overflow-y-auto modal-scrollbar">
             <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-white">Anleitung: Google API-Schlüssel erhalten</h2>
-                <button id="closeTutorialBtn" class="text-slate-400 hover:text-white">&times;</button>
+                <h2 class="text-2xl font-bold text-white" data-translate-key="modalGoogleTitle">Anleitung: Google API-Schlüssel erhalten</h2>
+                <button id="closeTutorialBtn" class="text-slate-400 hover:text-white">×</button>
             </div>
             <div class="space-y-5 text-slate-300">
-                <p>Folgen Sie diesen einfachen Schritten, um Ihren kostenlosen Google API-Schlüssel zu erhalten:</p>
+                <p data-translate-key="modalGoogleIntro">Folgen Sie diesen einfachen Schritten, um Ihren kostenlosen Google API-Schlüssel zu erhalten:</p>
                 <ol class="list-decimal list-inside space-y-4">
-                    <li>
-                        <strong>Google AI Studio besuchen:</strong>
+                    <!-- START: Übersetzbare Schritte -->
+                    <li data-translate-key="modalGoogleStep1">
+                        <strong data-translate-key="modalGoogleStep1Title">Google AI Studio besuchen:</strong>
                         <br>
-                        <span class="text-sm text-slate-400">
-                        Öffnen Sie den Link <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-pink-400 underline">aistudio.google.com/app/apikey</a> in einem neuen Tab. Melden Sie sich mit Ihrem Google-Konto an, falls Sie dazu aufgefordert werden.
+                        <span class="text-sm text-slate-400" data-translate-key="modalGoogleStep1Desc">
+                        Öffnen Sie den Link <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-pink-400 underline" data-translate-href-key="getGoogleApiKeyLink">aistudio.google.com/app/apikey</a> in einem neuen Tab. Melden Sie sich mit Ihrem Google-Konto an, falls Sie dazu aufgefordert werden.
                         </span>
                     </li>
-                    <li>
-                        <strong>Neuen API-Schlüssel erstellen:</strong>
+                    <li data-translate-key="modalGoogleStep2">
+                        <strong data-translate-key="modalGoogleStep2Title">Neuen API-Schlüssel erstellen:</strong>
                         <br>
-                        <span class="text-sm text-slate-400">
+                        <span class="text-sm text-slate-400" data-translate-key="modalGoogleStep2Desc">
                         Klicken Sie auf die Schaltfläche <strong class="text-blue-400">"Create API key in new project"</strong>.
                         </span>
                     </li>
-                    <li>
-                        <strong>API-Schlüssel kopieren:</strong>
+                    <li data-translate-key="modalGoogleStep3">
+                        <strong data-translate-key="modalGoogleStep3Title">API-Schlüssel kopieren:</strong>
                         <br>
-                         <span class="text-sm text-slate-400">
+                         <span class="text-sm text-slate-400" data-translate-key="modalGoogleStep3Desc">
                         Es erscheint ein Fenster mit Ihrem neuen Schlüssel. Klicken Sie auf das Kopieren-Symbol, um den gesamten Schlüssel in Ihre Zwischenablage zu kopieren.
                          </span>
                     </li>
-                    <li>
-                        <strong>Schlüssel einfügen und speichern:</strong>
+                    <li data-translate-key="modalGoogleStep4">
+                        <strong data-translate-key="modalGoogleStep4Title">Schlüssel einfügen und speichern:</strong>
                         <br>
-                         <span class="text-sm text-slate-400">
+                         <span class="text-sm text-slate-400" data-translate-key="modalGoogleStep4Desc">
                         Kehren Sie zu dieser Seite zurück, fügen Sie den kopierten Schlüssel in das Eingabefeld ein und klicken Sie auf "Speichern". Fertig!
                          </span>
                     </li>
+                    <!-- END: Übersetzbare Schritte -->
                 </ol>
                 <div class="mt-6 p-3 bg-slate-700 rounded-lg text-sm">
-                     <p class="font-semibold text-slate-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd" /></svg>
+                     <!-- START: Übersetzbarer Datenschutzhinweis -->
+                     <p class="font-semibold text-slate-200" data-translate-key="modalGooglePrivacyTitle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd"></path></svg>
                         Wichtiger Datenschutzhinweis:
                     </p>
-                    <p class="text-slate-300 mt-1">
+                    <p class="text-slate-300 mt-1" data-translate-key="modalGooglePrivacyDesc">
                         Ihr API-Schlüssel wird ausschließlich in Ihrem Browser (`localStorage`) gespeichert. Er verlässt niemals Ihren Computer und wird an keinen Server gesendet.
                     </p>
+                    <!-- END: Übersetzbarer Datenschutzhinweis -->
                 </div>
             </div>
         </div>
-    </div>
+    </div></main><footer class="text-center py-10 mt-20 border-t border-gray-800">
+            <p class="text-gray-500" data-translate-key="footerText">
+                © <span id="year"></span> AykolinoApps. Mit Leidenschaft.
+            </p>
+            <p class="text-xs text-gray-600 mt-2" data-translate-key="footerDisclaimer">
+                Diese Domain wird nicht für gewerbliche Zwecke genutzt.
+            </p>
+        </footer></div><script>
+const translations = {
+  "de": {
+    "langName": "DE",
+    "flagUrl": "https://flagcdn.com/w40/de.png",
+    "navAbout": "Über mich",
+    "navContact": "Kontakt",
+    "languageLabelMobile": "Sprache:",
+    "footerText": "© <span id=\"year-footer\"></span> AykolinoApps. Mit Leidenschaft.",
+    "footerDisclaimer": "Diese Domain wird nicht für gewerbliche Zwecke genutzt.",
+    "mainTitle": "HTML Translator Pro",
+    "mainSubtitle": "Übersetzt Textinhalte und passt Domain-Endungen (.de, .com etc.) in Links automatisch an.",
+    "originalCodeLabel": "Original-Code",
+    "inputPlaceholder": "HTML-Datei hierher ziehen oder Code einfügen...",
+    "translatedCodeLabel": "Übersetzter Code",
+    "copyButton": "Kopieren",
+    "translateButton": "Übersetzen",
+    "downloadButton": "Download",
+    "utmGeneratorTitle": "UTM Code Generator",
+    "websiteUrlLabel": "Website-URL *",
+    "utmSourceLabel": "UTM Source *",
+    "utmMediumLabel": "UTM Medium *",
+    "utmCampaignLabel": "UTM Campaign *",
+    "utmContentLabel": "UTM Content",
+    "utmTermLabel": "UTM Term",
+    "generatedUrlLabel": "Generierte URL",
+    "pasteButton": "Einfügen",
+    "placeholderExampleUrl": "https://example.com",
+    "placeholderSource": "z.B. newsletter, twitter, google",
+    "placeholderMedium": "z.B. E-mail, social, cpc",
+    "placeholderCampaign": "z.B. promotion, sale",
+    "placeholderContent": "z.B. any CTA, Headline",
+    "placeholderTerm": "Keywords für Ihre bezahlten Suchkampagnen",
+    "excelCompareTitle": "Excel-Listenvergleich",
+    "excelCompareSubtitle": "Vergleicht automatisch beide Listen und erstellt eine CSV-Datei.",
+    "oldListLabel": "Alte Liste",
+    "newListLabel": "Neue Liste",
+    "dragOrClick": "Drag & Drop oder klicken",
+    "compareAndDownloadButton": "Vergleichen & Download .csv",
+    "articleNumberGeneratorTitle": "Article Number Generator",
+    "articleNumberGeneratorSubtitle": "Ziehen Sie Ihre Excel-Datei hierher, um eine 'Final No.'-Spalte hinzuzufügen.",
+    "articleNumberDropZoneLabel": "Datei hierher ziehen oder klicken zum Auswählen",
+    "supportedFormats": "Unterstützte Formate: .xlsx, .xls, .csv",
+    "seoTextGeneratorTitle": "SEO Text Generator",
+    "seoTextGeneratorSubtitle": "Geben Sie Ihre Stichpunkte ein, wählen Sie eine Sprache und erhalten Sie einen optimierten Text.",
+    "apiSettings": "API-Schlüssel-Einstellungen",
+    "apiKeyPlaceholder": "API-Schlüssel hier einfügen...",
+    "saveButton": "Speichern",
+    "noKeyQuestion": "Keinen Schlüssel?",
+    "createHereLink": "Hier kostenlos erstellen.",
+    "getApiKeyLink": "https://platform.openai.com/signup",
+    "instructionsLink": "(Anleitung)",
+    "privacyNotice": "Datenschutzhinweis: Ihr Schlüssel wird NUR in Ihrem Browser gespeichert und NIEMALS an einen Server gesendet.",
+    "modalTitle": "Anleitung: API-Schlüssel",
+    "modalIntro": "Um den Textgenerator zu nutzen, benötigen Sie einen API-Schlüssel von OpenAI.",
+    "modalStep1": "1. Erstellen Sie ein Konto bei OpenAI.",
+    "modalStep2": "2. Navigieren Sie zu den API-Schlüssel-Einstellungen.",
+    "modalStep3": "3. Generieren Sie einen neuen 'Secret Key' und kopieren Sie ihn.",
+    "modalStep4": "4. Fügen Sie den Schlüssel hier ein und klicken Sie auf 'Speichern'.",
+    "modalApiLinkText": "Zu OpenAI gehen",
+    "modalCloseButton": "Schließen",
+    "keywordsLabel": "Ihre Stichpunkte (jeder Punkt in einer neuen Zeile):",
+    "keywordsPlaceholder": "z.B.\n- Vorteile von Solarenergie\n- Kostenersparnis\n- Umweltfreundlich\n- Unabhängigkeit vom Stromnetz",
+    "targetLanguageLabel": "Zielsprache:",
+    "generateTextButton": "Text generieren",
+    "languageGerman": "Deutsch",
+    "languageEnglish": "Englisch",
+    "languageFrench": "Französisch",
+    "languageSpanish": "Spanisch",
+    "languageItalian": "Italienisch",
+    "getGoogleApiKeyLink": "https://aistudio.google.com/app/apikey",
+    "modalGoogleTitle": "Anleitung: Google API-Schlüssel erhalten",
+    "modalGoogleIntro": "Folgen Sie diesen einfachen Schritten, um Ihren kostenlosen Google API-Schlüssel zu erhalten:",
+    "modalGoogleStep1Title": "Google AI Studio besuchen:",
+    "modalGoogleStep1Desc": "Öffnen Sie den Link <a href=\"https://aistudio.google.com/app/apikey\" target=\"_blank\" class=\"text-pink-400 underline\" data-translate-href-key=\"getGoogleApiKeyLink\">aistudio.google.com/app/apikey</a> in einem neuen Tab. Melden Sie sich mit Ihrem Google-Konto an, falls Sie dazu aufgefordert werden.",
+    "modalGoogleStep2Title": "Neuen API-Schlüssel erstellen:",
+    "modalGoogleStep2Desc": "Klicken Sie auf die Schaltfläche <strong class=\"text-blue-400\">\"Create API key in new project\"</strong>.",
+    "modalGoogleStep3Title": "API-Schlüssel kopieren:",
+    "modalGoogleStep3Desc": "Es erscheint ein Fenster mit Ihrem neuen Schlüssel. Klicken Sie auf das Kopieren-Symbol, um den gesamten Schlüssel in Ihre Zwischenablage zu kopieren.",
+    "modalGoogleStep4Title": "Schlüssel einfügen und speichern:",
+    "modalGoogleStep4Desc": "Kehren Sie zu dieser Seite zurück, fügen Sie den kopierten Schlüssel in das Eingabefeld ein und klicken Sie auf \"Speichern\". Fertig!",
+    "modalGooglePrivacyTitle": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-5 w-5 inline-block mr-1\" viewBox=\"0 0 20 20\" fill=\"currentColor\"><path fill-rule=\"evenodd\" d=\"M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z\" clip-rule=\"evenodd\"></path></svg> Wichtiger Datenschutzhinweis:",
+    "modalGooglePrivacyDesc": "Ihr API-Schlüssel wird ausschließlich in Ihrem Browser (`localStorage`) gespeichert. Er verlässt niemals Ihren Computer und wird an keinen Server gesendet.",
+    "loadingText": "Generiere...",
+    "generatingTextDots": "Generiere Text... Bitte haben Sie einen Moment Geduld."
+  },
+  "en": {
+    "langName": "EN",
+    "flagUrl": "https://flagcdn.com/w40/gb.png",
+    "navAbout": "About Me",
+    "navContact": "Contact",
+    "languageLabelMobile": "Language:",
+    "footerText": "© <span id=\"year-footer\"></span> AykolinoApps. With passion.",
+    "footerDisclaimer": "This domain is not used for commercial purposes.",
+    "mainTitle": "HTML Translator Pro",
+    "mainSubtitle": "Translates text content and automatically adjusts domain endings (.de, .com etc.) in links.",
+    "originalCodeLabel": "Original Code",
+    "inputPlaceholder": "Drag and drop HTML file here or paste code...",
+    "translatedCodeLabel": "Translated Code",
+    "copyButton": "Copy",
+    "translateButton": "Translate",
+    "downloadButton": "Download",
+    "utmGeneratorTitle": "UTM Code Generator",
+    "websiteUrlLabel": "Website URL *",
+    "utmSourceLabel": "UTM Source *",
+    "utmMediumLabel": "UTM Medium *",
+    "utmCampaignLabel": "UTM Campaign *",
+    "utmContentLabel": "UTM Content",
+    "utmTermLabel": "UTM Term",
+    "generatedUrlLabel": "Generated URL",
+    "pasteButton": "Paste",
+    "placeholderExampleUrl": "https://example.com",
+    "placeholderSource": "e.g. newsletter, twitter, google",
+    "placeholderMedium": "e.g. email, social, cpc",
+    "placeholderCampaign": "e.g. promotion, sale",
+    "placeholderContent": "e.g. any CTA, headline",
+    "placeholderTerm": "Keywords for your paid search campaigns",
+    "excelCompareTitle": "Excel List Comparison",
+    "excelCompareSubtitle": "Automatically compares both lists and creates a CSV file.",
+    "oldListLabel": "Old List",
+    "newListLabel": "New List",
+    "dragOrClick": "Drag & Drop or click",
+    "compareAndDownloadButton": "Compare & Download .csv",
+    "articleNumberGeneratorTitle": "Article Number Generator",
+    "articleNumberGeneratorSubtitle": "Drag your Excel file here to add a 'Final No.' column.",
+    "articleNumberDropZoneLabel": "Drag file here or click to select",
+    "supportedFormats": "Supported formats: .xlsx, .xls, .csv",
+    "seoTextGeneratorTitle": "SEO Text Generator",
+    "seoTextGeneratorSubtitle": "Enter your keywords, select a language, and receive an optimized text.",
+    "apiSettings": "API Key Settings",
+    "apiKeyPlaceholder": "Enter API key here...",
+    "saveButton": "Save",
+    "noKeyQuestion": "No key?",
+    "createHereLink": "Create one for free.",
+    "getApiKeyLink": "https://platform.openai.com/signup",
+    "instructionsLink": "(Instructions)",
+    "privacyNotice": "Privacy Notice: Your key is ONLY stored in your browser and is NEVER sent to a server.",
+    "modalTitle": "Instructions: API Key",
+    "modalIntro": "To use the text generator, you need an API key from OpenAI.",
+    "modalStep1": "1. Create an account at OpenAI.",
+    "modalStep2": "2. Navigate to the API key settings.",
+    "modalStep3": "3. Generate a new 'Secret Key' and copy it.",
+    "modalStep4": "4. Paste the key here and click 'Save'.",
+    "modalApiLinkText": "Go to OpenAI",
+    "modalCloseButton": "Close",
+    "keywordsLabel": "Your keywords (each point on a new line):",
+    "keywordsPlaceholder": "e.g.\n- Advantages of solar energy\n- Cost savings\n- Environmentally friendly\n- Independence from the power grid",
+    "targetLanguageLabel": "Target Language:",
+    "generateTextButton": "Generate Text",
+    "languageGerman": "German",
+    "languageEnglish": "English",
+    "languageFrench": "French",
+    "languageSpanish": "Spanish",
+    "languageItalian": "Italian",
+    "getGoogleApiKeyLink": "https://aistudio.google.com/app/apikey",
+    "modalGoogleTitle": "Instructions: Get Google API Key",
+    "modalGoogleIntro": "Follow these simple steps to get your free Google API key:",
+    "modalGoogleStep1Title": "Visit Google AI Studio:",
+    "modalGoogleStep1Desc": "Open the link <a href=\"https://aistudio.google.com/app/apikey\" target=\"_blank\" class=\"text-pink-400 underline\" data-translate-href-key=\"getGoogleApiKeyLink\">aistudio.google.com/app/apikey</a> in a new tab. Log in with your Google account if prompted.",
+    "modalGoogleStep2Title": "Create new API key:",
+    "modalGoogleStep2Desc": "Click on the button <strong class=\"text-blue-400\">\"Create API key in new project\"</strong>.",
+    "modalGoogleStep3Title": "Copy API key:",
+    "modalGoogleStep3Desc": "A window will appear with your new key. Click the copy icon to copy the entire key to your clipboard.",
+    "modalGoogleStep4Title": "Paste and save key:",
+    "modalGoogleStep4Desc": "Return to this page, paste the copied key into the input field, and click \"Save\". Done!",
+    "modalGooglePrivacyTitle": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-5 w-5 inline-block mr-1\" viewBox=\"0 0 20 20\" fill=\"currentColor\"><path fill-rule=\"evenodd\" d=\"M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z\" clip-rule=\"evenodd\"></path></svg> Important Privacy Notice:",
+    "modalGooglePrivacyDesc": "Your API key is stored exclusively in your browser (`localStorage`). It never leaves your computer and is not sent to any server.",
+    "loadingText": "Generating...",
+    "generatingTextDots": "Generating text... Please wait a moment."
+  },
+  "fr": {
+    "langName": "FR",
+    "flagUrl": "https://flagcdn.com/w40/fr.png",
+    "navAbout": "À propos de moi",
+    "navContact": "Contact",
+    "languageLabelMobile": "Langue:",
+    "footerText": "© <span id=\"year-footer\"></span> AykolinoApps. Avec passion.",
+    "footerDisclaimer": "Ce domaine n'est pas utilisé à des fins commerciales.",
+    "mainTitle": "HTML Translator Pro",
+    "mainSubtitle": "Traduit le contenu textuel et ajuste automatiquement les extensions de domaine (.de, com etc.) dans les liens.",
+    "originalCodeLabel": "Code Original",
+    "inputPlaceholder": "Glissez-déposez le fichier HTML ici ou collez le code...",
+    "translatedCodeLabel": "Code Traduit",
+    "copyButton": "Copier",
+    "translateButton": "Traduire",
+    "downloadButton": "Télécharger",
+    "utmGeneratorTitle": "Générateur de code UTM",
+    "websiteUrlLabel": "URL du site Web *",
+    "utmSourceLabel": "Source UTM *",
+    "utmMediumLabel": "Medium UTM *",
+    "utmCampaignLabel": "Campagne UTM *",
+    "utmContentLabel": "Contenu UTM",
+    "utmTermLabel": "Terme UTM",
+    "generatedUrlLabel": "URL générée",
+    "pasteButton": "Coller",
+    "placeholderExampleUrl": "https://example.com",
+    "placeholderSource": "par ex. newsletter, twitter, google",
+    "placeholderMedium": "par ex. e-mail, social, cpc",
+    "placeholderCampaign": "par ex. promotion, vente",
+    "placeholderContent": "par ex. tout CTA, titre",
+    "placeholderTerm": "Mots-clés pour vos campagnes de recherche payantes",
+    "excelCompareTitle": "Comparaison de listes Excel",
+    "excelCompareSubtitle": "Compare automatiquement les deux listes et crée un fichier CSV.",
+    "oldListLabel": "Ancienne Liste",
+    "newListLabel": "Nouvelle Liste",
+    "dragOrClick": "Glisser-déposer ou cliquer",
+    "compareAndDownloadButton": "Comparer & Télécharger .csv",
+    "articleNumberGeneratorTitle": "Générateur de Numéros d'Article",
+    "articleNumberGeneratorSubtitle": "Faites glisser votre fichier Excel ici pour ajouter une colonne 'N° Final'.",
+    "articleNumberDropZoneLabel": "Faites glisser le fichier ici ou cliquez pour sélectionner",
+    "supportedFormats": "Formats pris en charge : .xlsx, .xls, .csv",
+    "seoTextGeneratorTitle": "Générateur de Texte SEO",
+    "seoTextGeneratorSubtitle": "Entrez vos points clés, sélectionnez une langue et recevez un texte optimisé.",
+    "apiSettings": "Paramètres de la clé API",
+    "apiKeyPlaceholder": "Entrez la clé API ici...",
+    "saveButton": "Enregistrer",
+    "noKeyQuestion": "Pas de clé?",
+    "createHereLink": "Créez-en une gratuitement.",
+    "getApiKeyLink": "https://platform.openai.com/signup",
+    "instructionsLink": "(Instructions)",
+    "privacyNotice": "Avis de confidentialité : Votre clé est UNIQUEMENT stockée dans votre navigateur et n'est JAMAIS envoyée à un serveur.",
+    "modalTitle": "Instructions : Clé API",
+    "modalIntro": "Pour utiliser le générateur de texte, vous avez besoin d'une clé API d'OpenAI.",
+    "modalStep1": "1. Créez un compte sur OpenAI.",
+    "modalStep2": "2. Accédez aux paramètres de la clé API.",
+    "modalStep3": "3. Générez une nouvelle 'clé secrète' et copiez-la.",
+    "modalStep4": "4. Collez la clé ici et cliquez sur 'Enregistrer'.",
+    "modalApiLinkText": "Aller à OpenAI",
+    "modalCloseButton": "Fermer",
+    "keywordsLabel": "Vos points clés (chaque point sur une nouvelle ligne):",
+    "keywordsPlaceholder": "par ex.\n- Avantages de l'énergie solaire\n- Économies de coûts\n- Écologique\n- Indépendance du réseau électrique",
+    "targetLanguageLabel": "Langue cible:",
+    "generateTextButton": "Générer le texte",
+    "languageGerman": "Allemand",
+    "languageEnglish": "Anglais",
+    "languageFrench": "Français",
+    "languageSpanish": "Espagnol",
+    "languageItalian": "Italien",
+    "getGoogleApiKeyLink": "https://aistudio.google.com/app/apikey",
+    "modalGoogleTitle": "Instructions : Obtenir la clé API Google",
+    "modalGoogleIntro": "Suivez ces étapes simples pour obtenir votre clé API Google gratuite :",
+    "modalGoogleStep1Title": "Visitez Google AI Studio :",
+    "modalGoogleStep1Desc": "Ouvrez le lien <a href=\"https://aistudio.google.com/app/apikey\" target=\"_blank\" class=\"text-pink-400 underline\" data-translate-href-key=\"getGoogleApiKeyLink\">aistudio.google.com/app/apikey</a> dans un nouvel onglet. Connectez-vous avec votre compte Google si vous y êtes invité.",
+    "modalGoogleStep2Title": "Créer une nouvelle clé API :",
+    "modalGoogleStep2Desc": "Cliquez sur le bouton <strong class=\"text-blue-400\">\"Create API key in new project\"</strong>.",
+    "modalGoogleStep3Title": "Copier la clé API :",
+    "modalGoogleStep3Desc": "Une fenêtre apparaîtra avec votre nouvelle clé. Cliquez sur l'icône de copie pour copier la clé entière dans votre presse-papiers.",
+    "modalGoogleStep4Title": "Coller et enregistrer la clé :",
+    "modalGoogleStep4Desc": "Revenez à cette page, collez la clé copiée dans le champ de saisie et cliquez sur \"Enregistrer\". Terminé !",
+    "modalGooglePrivacyTitle": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-5 w-5 inline-block mr-1\" viewBox=\"0 0 20 20\" fill=\"currentColor\"><path fill-rule=\"evenodd\" d=\"M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z\" clip-rule=\"evenodd\"></path></svg> Avis de confidentialité important :",
+    "modalGooglePrivacyDesc": "Votre clé API est stockée exclusivement dans votre navigateur (`localStorage`). Elle ne quitte jamais votre ordinateur et n'est envoyée à aucun serveur.",
+    "loadingText": "Génération...",
+    "generatingTextDots": "Génération du texte... Veuillez patienter un moment."
+  },
+  "es": {
+    "langName": "ES",
+    "flagUrl": "https://flagcdn.com/w40/es.png",
+    "navAbout": "Sobre mí",
+    "navContact": "Contacto",
+    "languageLabelMobile": "Idioma:",
+    "footerText": "© <span id=\"year-footer\"></span> AykolinoApps. Con pasión.",
+    "footerDisclaimer": "Este dominio no se utiliza con fines comerciales.",
+    "mainTitle": "HTML Translator Pro",
+    "mainSubtitle": "Traduce el contenido del texto y ajusta automáticamente las terminaciones de dominio (.de, .com etc.) en los enlaces.",
+    "originalCodeLabel": "Código Original",
+    "inputPlaceholder": "Arrastre y suelte el archivo HTML aquí o pegue el código...",
+    "translatedCodeLabel": "Código Traducido",
+    "copyButton": "Copier",
+    "translateButton": "Traducir",
+    "downloadButton": "Descargar",
+    "utmGeneratorTitle": "Generador de código UTM",
+    "websiteUrlLabel": "URL del sitio web *",
+    "utmSourceLabel": "Fuente UTM *",
+    "utmMediumLabel": "Medio UTM *",
+    "utmCampaignLabel": "Campaña UTM *",
+    "utmContentLabel": "Contenido UTM",
+    "utmTermLabel": "Término UTM",
+    "generatedUrlLabel": "URL generada",
+    "pasteButton": "Pegar",
+    "placeholderExampleUrl": "https://example.com",
+    "placeholderSource": "p.ej. newsletter, twitter, google",
+    "placeholderMedium": "p.ej. email, social, cpc",
+    "placeholderCampaign": "p.ej. promoción, venta",
+    "placeholderContent": "p.ej. cualquier CTA, titular",
+    "placeholderTerm": "Palabras clave para sus campañas de búsqueda de pago",
+    "excelCompareTitle": "Comparación de listas de Excel",
+    "excelCompareSubtitle": "Compara automáticamente ambas listas y crea un archivo CSV.",
+    "oldListLabel": "Lista Antigua",
+    "newListLabel": "Lista Nueva",
+    "dragOrClick": "Arrastrar y soltar o hacer clic",
+    "compareAndDownloadButton": "Comparar y Descargar .csv",
+    "articleNumberGeneratorTitle": "Generador de Números de Artículo",
+    "articleNumberGeneratorSubtitle": "Arrastre su archivo de Excel aquí para agregar una columna de 'Nº Final'.",
+    "articleNumberDropZoneLabel": "Arrastre el archivo aquí o haga clic para seleccionar",
+    "supportedFormats": "Formatos admitidos: .xlsx, .xls, .csv",
+    "seoTextGeneratorTitle": "Generador de Texto SEO",
+    "seoTextGeneratorSubtitle": "Introduzca sus palabras clave, seleccione un idioma y reciba un texto optimizado.",
+    "apiSettings": "Configuración de la clave API",
+    "apiKeyPlaceholder": "Introduzca la clave de API aquí...",
+    "saveButton": "Guardar",
+    "noKeyQuestion": "¿No tiene clave?",
+    "createHereLink": "Cree una gratis aquí.",
+    "getApiKeyLink": "https://platform.openai.com/signup",
+    "instructionsLink": "(Instrucciones)",
+    "privacyNotice": "Aviso de privacidad: su clave se almacena ÚNICAMENTE en su navegador y NUNCA se envía a un servidor.",
+    "modalTitle": "Instrucciones: Clave API",
+    "modalIntro": "Para utilizar el generador de texto, necesita una clave de API de OpenAI.",
+    "modalStep1": "1. Cree una cuenta en OpenAI.",
+    "modalStep2": "2. Vaya a la configuración de la clave API.",
+    "modalStep3": "3. Genere una nueva 'Clave secreta' y cópiela.",
+    "modalStep4": "4. Pegue la clave aquí y haga clic en 'Guardar'.",
+    "modalApiLinkText": "Ir a OpenAI",
+    "modalCloseButton": "Cerrar",
+    "keywordsLabel": "Sus palabras clave (cada punto en una nueva línea):",
+    "keywordsPlaceholder": "p.ej.\n- Ventajas de la energía solar\n- Ahorro de costes\n- Respetuoso con el medio ambiente\n- Independencia de la red eléctrica",
+    "targetLanguageLabel": "Idioma de destino:",
+    "generateTextButton": "Generar texto",
+    "languageGerman": "Alemán",
+    "languageEnglish": "Inglés",
+    "languageFrench": "Francés",
+    "languageSpanish": "Español",
+    "languageItalian": "Italiano",
+    "getGoogleApiKeyLink": "https://aistudio.google.com/app/apikey",
+    "modalGoogleTitle": "Instrucciones: Obtener clave de API de Google",
+    "modalGoogleIntro": "Siga estos sencillos pasos para obtener su clave de API de Google gratuita:",
+    "modalGoogleStep1Title": "Visite Google AI Studio:",
+    "modalGoogleStep1Desc": "Abra el enlace <a href=\"https://aistudio.google.com/app/apikey\" target=\"_blank\" class=\"text-pink-400 underline\" data-translate-href-key=\"getGoogleApiKeyLink\">aistudio.google.com/app/apikey</a> en una nueva pestaña. Inicie sesión con su cuenta de Google si se le solicita.",
+    "modalGoogleStep2Title": "Crear nueva clave de API:",
+    "modalGoogleStep2Desc": "Haga clic en el botón <strong class=\"text-blue-400\">\"Create API key in new project\"</strong>.",
+    "modalGoogleStep3Title": "Copiar clave de API:",
+    "modalGoogleStep3Desc": "Aparecerá una ventana con su nueva clave. Haga clic en el icono de copiar para copiar la clave completa en su portapapeles.",
+    "modalGoogleStep4Title": "Pegar y guardar clave:",
+    "modalGoogleStep4Desc": "Vuelva a esta página, pegue la clave copiada en el campo de entrada y haga clic en \"Guardar\". ¡Listo!",
+    "modalGooglePrivacyTitle": "<svg xmlns=\"http://www.w3.org/2000/svg\" class=\"h-5 w-5 inline-block mr-1\" viewBox=\"0 0 20 20\" fill=\"currentColor\"><path fill-rule=\"evenodd\" d=\"M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z\" clip-rule=\"evenodd\"></path></svg> Aviso de privacidad importante:",
+    "modalGooglePrivacyDesc": "Su clave de API se almacena exclusivamente en su navegador (`localStorage`). Nunca sale de su computadora y no se envía a ningún servidor.",
+    "loadingText": "Generando...",
+    "generatingTextDots": "Generando texto... Por favor, espere un momento."
+  }
+};
 
+function setLanguage(lang, event) {
+    if (event) event.preventDefault();
+    const langPack = translations[lang];
+    if (!langPack) return;
+    localStorage.setItem('language', lang);
+    document.documentElement.lang = lang;
 
-    <script>
+    document.querySelectorAll('[data-translate-key]').forEach(el => {
+        const key = el.getAttribute('data-translate-key');
+        if (langPack[key]) {
+            // Behält die ursprüngliche HTML-Struktur bei der Übersetzung bei
+            el.innerHTML = langPack[key]; 
+        }
+    });
+
+    document.querySelectorAll('[data-translate-key-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-translate-key-placeholder');
+        if (langPack[key]) {
+            el.setAttribute('placeholder', langPack[key]);
+        }
+    });
+
+    document.querySelectorAll('[data-translate-href-key]').forEach(el => {
+        const key = el.getAttribute('data-translate-href-key');
+        if (langPack[key]) {
+            el.setAttribute('href', langPack[key]);
+        }
+    });
+
+    const currentLangDesktop = document.getElementById('current-lang-desktop');
+    if (currentLangDesktop) currentLangDesktop.textContent = langPack.langName;
+    const currentFlagDesktop = document.getElementById('current-flag-desktop');
+    if (currentFlagDesktop) {
+        currentFlagDesktop.src = langPack.flagUrl;
+        currentFlagDesktop.alt = `Flag of ${lang}`;
+    }
+    
+    const yearSpan = document.getElementById('year-footer');
+    if (yearSpan) yearSpan.textContent = new Date().getFullYear();
+
+    document.getElementById('lang-switcher-dropdown')?.classList.remove('open');
+    document.getElementById('mobile-menu')?.classList.add('hidden');
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('language') || 'de';
+    // Kleine Verzögerung, um sicherzustellen, dass alle anderen DOM-Skripte ausgeführt wurden
+    // und dass Elemente (wie das Modal) im DOM verfügbar sind, bevor die Sprache gesetzt wird.
+    setTimeout(() => {
+        if(window.setLanguage) {
+            window.setLanguage(savedLang);
+        }
+    }, 150); // Leicht erhöhte Verzögerung
+
+    document.getElementById('lang-switcher-button')?.addEventListener('click', (event) => {
+        event.stopPropagation();
+        document.getElementById('lang-switcher-dropdown')?.classList.toggle('open');
+    });
+    window.addEventListener('click', () => document.getElementById('lang-switcher-dropdown')?.classList.remove('open'));
+    document.getElementById('mobile-menu-button')?.addEventListener('click', () => document.getElementById('mobile-menu')?.classList.toggle('hidden'));
+    
+    const header = document.getElementById('main-header');
+    if(header) {
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('header-scrolled', window.scrollY > 10);
+        });
+    }
+});
+window.setLanguage = setLanguage;
+</script><script>
         // DOM Elements
         const apiKeyInput = document.getElementById('apiKeyInput');
         const saveApiKeyBtn = document.getElementById('saveApiKeyBtn');
@@ -326,15 +904,20 @@
         // --- UI Logic ---
         
         const setLoadingState = (isLoading) => {
+            const lang = localStorage.getItem('language') || 'de';
+            const loadingKey = 'loadingText';
+            const generateKey = 'generateTextButton';
+            
             if (isLoading) {
                 generateBtn.disabled = true;
-                btnText.textContent = "Generiere...";
+                btnText.innerHTML = (translations[lang] && translations[lang][loadingKey]) || translations['en'][loadingKey]; // Set loading text
                 loader.classList.remove('hidden');
                 resultContainer.classList.add('hidden');
                 errorContainer.classList.add('hidden');
             } else {
                 generateBtn.disabled = false;
-                btnText.textContent = "Text generieren";
+                // Restore original button text from translations
+                btnText.innerHTML = (translations[lang] && translations[lang][generateKey]) || translations['en'][generateKey];
                 loader.classList.add('hidden');
             }
         };
@@ -393,19 +976,8 @@
                 copyBtn.style.display = 'inline-block';
             }, 2000);
         });
-       // Marquee Title Effect
-        (function() {
-            const originalTitle = document.title + " ";
-            let titleText = originalTitle;
-            function marquee() {
-                titleText = titleText.substring(1, titleText.length) + titleText.substring(0, 1);
-                document.title = titleText;
-            }
-            setInterval(marquee, 300); // Speed in milliseconds
-        })();
-        
-    </script>
-</body>
-</html>
+
+    </script></body></html>
+
 
 
