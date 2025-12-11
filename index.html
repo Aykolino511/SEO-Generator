@@ -3,32 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Setze hier deinen neuen Titel -->
     <title>© AykolinoApps - SEO Generator</title>
 
-    <!-- Tailwind CSS (Wichtig für das Layout) -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts: Inter (Wichtig für die Schriftart) -->
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     
-    <!-- Du kannst hier dein eigenes Favicon verlinken -->
+    <!-- Favicon Platzhalter -->
     <link rel="icon" href="favicon-32x32.png" type="image/x-icon">
 
     <style>
-        /* --- ÜBERNOMMENE GLOBALE STILE & FARBEN --- */
+        /* --- GLOBALE STILE --- */
         body {
             font-family: 'Inter', sans-serif;
-            /* Hintergrund- und Textfarbe der Website */
-            /* HINZUGEFÜGT: !important, um die Hintergrundfarbe von eingefügtem Code zu überschreiben */
-            background-color: #0a0a0a !important;
+            background-color: #0a0a0a;
             color: #f5f5f5;
             overflow-x: hidden;
         }
 
-        /* Verlauf-Text (genutzt in der Navigation) */
+        /* Verlauf-Text */
         .gradient-text {
             background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
             -webkit-background-clip: text;
@@ -53,7 +50,7 @@
             to { transform: rotate(360deg); }
         }
 
-        /* --- ÜBERNOMMENE HEADER & SPRACHAUSWAHL STILE --- */
+        /* Header Animation */
         .header {
             animation: fadeInDown 0.8s ease-out;
         }
@@ -64,26 +61,42 @@
         }
 
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Stile für das Sprachauswahl-Dropdown */
+        /* Loader Animation */
+        .loader {
+            border: 8px solid #4b5563;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dropdown Stile */
         .lang-switcher-dropdown {
             position: absolute;
             top: 100%;
             right: 0;
             margin-top: 10px;
-            background-color: #111827; /* bg-gray-900 */
-            border-radius: 0.5rem; /* rounded-lg */
+            background-color: #111827;
+            border-radius: 0.5rem;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
             width: 160px; 
             z-index: 60;
             overflow: hidden;
@@ -99,303 +112,209 @@
             transform: translateY(0);
         }
 
-        /* FIX (Version 4): Die CSS-Regel 'main { padding-top: 10rem; }' 
-          wurde von hier entfernt. Der Abstand wird jetzt direkt 
-          als Tailwind-Klasse 'pt-40' (10rem) zum <main>-Tag hinzugefügt.
-        */
-
-    </style>
-</head>
-<body>
-
-    <!-- ÜBERNOMMEN: Background Glow -->
-    <div class="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden">
-        <div class="glow-effect"></div>
-    </div>
-
-    <!-- ÜBERNOMMEN: Main Container -->
-    <!-- 
-      FIX (Version 7):
-      - 'min-h-screen' und 'flex flex-col' hinzugefügt.
-      - Dieser Container steuert jetzt das Layout und drückt den Footer nach unten.
-    -->
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex flex-col">
-
-        <!-- ÜBERNOMMEN: Header / Navigation -->
-        <nav id="main-header" class="header fixed top-0 left-0 w-full z-50 backdrop-blur-md border-b border-transparent transition-colors duration-300">
-            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-20">
-                    <a href="https://aykolino.de" class="text-2xl font-bold tracking-tight text-white">
-                        Aykolino<span class="gradient-text">Apps</span>
-                    </a>
-
-                    <!-- Desktop Navigation -->
-                    <div class="hidden md:flex items-center space-x-8">
-                        <a href="https://uebermich.aykolino.de" class="text-gray-300 hover:text-white transition-colors" data-translate-key="navAbout">Über mich</a>
-                        <a href="mailto:ayko.tiedtke2@yahoo.de" class="text-gray-300 hover:text-white transition-colors" data-translate-key="navContact">Kontakt</a>
-                        
-                        <!-- Sprachauswahl -->
-                        <div class="relative lang-switcher">
-                            <button id="lang-switcher-button" class="flex items-center text-gray-300 hover:text-white transition-colors">
-                                <img id="current-flag-desktop" src="" alt="Language flag" class="w-5 h-auto mr-2 rounded-sm object-cover">
-                                <span id="current-lang-desktop">DE</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            </button>
-                            <div id="lang-switcher-dropdown" class="lang-switcher-dropdown p-2 space-y-1">
-                                <a href="#" class="flex items-center w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md transition-colors" onclick="setLanguage('de', event)">
-                                    <img src="https://flagcdn.com/w40/de.png" alt="German flag" class="w-5 h-auto mr-3 rounded-sm">
-                                    <span>Deutsch</span>
-                                </a>
-                                <a href="#" class="flex items-center w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md transition-colors" onclick="setLanguage('en', event)">
-                                    <img src="https://flagcdn.com/w40/gb.png" alt="British flag" class="w-5 h-auto mr-3 rounded-sm">
-                                    <span>English</span>
-                                </a>
-                                <a href="#" class="flex items-center w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md transition-colors" onclick="setLanguage('fr', event)">
-                                    <img src="https://flagcdn.com/w40/fr.png" alt="French flag" class="w-5 h-auto mr-3 rounded-sm">
-                                    <span>Français</span>
-                                </a>
-                                <a href="#" class="flex items-center w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md transition-colors" onclick="setLanguage('es', event)">
-                                     <img src="https://flagcdn.com/w40/es.png" alt="Spanish flag" class="w-5 h-auto mr-3 rounded-sm">
-                                    <span>Español</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Mobile Menu Button -->
-                    <div class="md:hidden">
-                        <button id="mobile-menu-button" class="text-white">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <!-- Mobile Menu -->
-            <div id="mobile-menu" class="hidden md:hidden">
-                <a href="https://uebermich.aykolino.de" class="block py-3 px-4 text-sm text-gray-200 hover:bg-gray-800" data-translate-key="navAbout">Über mich</a>
-                <a href="mailto:ayko.tiedtke2@yahoo.de" class="block py-3 px-4 text-sm text-gray-200 hover:bg-gray-800" data-translate-key="navContact">Kontakt</a>
-                <div class="px-4 pt-3 pb-1 border-t border-gray-700">
-                    <p class="text-xs text-gray-400 mb-2" data-translate-key="languageLabelMobile">Sprache:</p>
-                    <a href="#" class="flex items-center w-full py-2 text-sm text-gray-200 hover:bg-gray-800" onclick="setLanguage('de', event)">
-                         <img src="https://flagcdn.com/w40/de.png" alt="German flag" class="w-5 h-auto mr-3 rounded-sm"> Deutsch
-                    </a>
-                    <a href="#" class="flex items-center w-full py-2 text-sm text-gray-200 hover:bg-gray-800" onclick="setLanguage('en', event)">
-                         <img src="https://flagcdn.com/w40/gb.png" alt="British flag" class="w-5 h-auto mr-3 rounded-sm"> English
-                    </a>
-                    <a href="#" class="flex items-center w-full py-2 text-sm text-gray-200 hover:bg-gray-800" onclick="setLanguage('fr', event)">
-                         <img src="https://flagcdn.com/w40/fr.png" alt="French flag" class="w-5 h-auto mr-3 rounded-sm"> Français
-                    </a>
-                    <a href="#" class="flex items-center w-full py-2 text-sm text-gray-200 hover:bg-gray-800" onclick="setLanguage('es', event)">
-                         <img src="https://flagcdn.com/w40/es.png" alt="Spanish flag" class="w-5 h-auto mr-3 rounded-sm"> Español
-                    </a>
-                </div>
-            </div>
-        </nav>
-
-        <!-- 
-        *************************************************
-        * *
-        * NEUER FIX (Version 5): "SPACER-BLOCK"       *
-        * *
-        * Dieser Block ist exakt so hoch wie die        *
-        * Navigationsleiste (h-20 = 5rem / 80px).     *
-        * Er ist unsichtbar und drückt allen Inhalt,  *
-        * der danach kommt, physisch nach unten.      *
-        * *
-        ************************************************* -->
-        <div class="h-20"></div>
-        <!-- *********************************************** -->
-
-
-        <!-- 
-        *************************************************
-        * HIER DEINEN NEUEN SEITENINHALT EINFÜGEN     *
-        * *
-        ************************************************* -->
-        
-        <!-- 
-          FIX (Version 7):
-          - 'min-h-screen' ENTFERNT.
-          - 'pb-24' (großer Abstand) ENTFERNT.
-          - 'flex-grow' HINZUGEFÜGT. Main füllt jetzt den leeren Platz.
-          - 'flex flex-col items-center' bleibt, um den Inhalt zu zentrieren.
-        -->
-        <main class="flex-grow flex flex-col items-center">
-            
-            <!-- 
-              WICHTIG: Der alte Wrapper '<div class="max-w-5xl mx-auto...">' 
-              wurde ENTFERNT. 
-              
-              Füge deinen App-Code direkt hier ein, oder ersetze 
-              diesen gesamten <main>-Block durch deinen Code.
-            -->
-
-            <!-- Beispielinhalt (kannst du löschen) -->
-       <!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEO Text Generator</title>
-    <title>AA - AykolinoApps - SEO Text Generator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .loader {
-            border: 8px solid #4b5563; /* slate-600 */
-            border-top-color: #3b82f6; /* blue-500 */
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        #closeTutorialBtn {
-            font-size: 2rem;
-            line-height: 1;
-        }
-        /* Custom scrollbar for modal */
+        /* Custom Scrollbar für Modal */
         .modal-scrollbar::-webkit-scrollbar {
             width: 8px;
         }
         .modal-scrollbar::-webkit-scrollbar-track {
-            background: #1f2937; /* slate-800 */
+            background: #1f2937;
         }
         .modal-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #4b5563; /* slate-600 */
+            background-color: #4b5563;
             border-radius: 4px;
-        }
-        /* Custom arrow for select dropdown */
-        select#language {
-            -webkit-appearance: none;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%239ca3af'%3e%3cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd' /%3e%3c/svg%3e");
-            background-position: right 0.5rem center;
-            background-repeat: no-repeat;
-            background-size: 1.5em;
         }
     </style>
 </head>
-<body class="bg-slate-900 text-slate-300 flex items-center justify-center min-h-screen p-4">
+<body class="flex flex-col min-h-screen">
 
-    <div class="w-full max-w-3xl mx-auto">
-        <div class="bg-slate-800 rounded-xl shadow-2xl p-6 sm:p-8 border border-slate-700">
-            <header class="text-center mb-8">
-                <h1 class="text-3xl md:text-4xl font-bold text-white">SEO Text Generator</h1>
-                <p class="text-slate-400 mt-2">Geben Sie Ihre Stichpunkte ein, wählen Sie eine Sprache und erhalten Sie einen optimierten Text.</p>
-            </header>
+    <!-- Background Glow -->
+    <div class="fixed top-0 left-0 w-full h-full -z-10 overflow-hidden">
+        <div class="glow-effect"></div>
+    </div>
 
-            <main>
-                 <!-- API Key Section (Collapsible) -->
-                <div class="bg-slate-900 border border-slate-700 rounded-lg mb-8">
-                    <button id="toggleApiKeyBtn" class="w-full p-4 flex justify-between items-center text-left focus:outline-none">
-                        <span class="text-lg font-semibold text-white">API-Schlüssel-Einstellungen</span>
-                        <svg id="apiKeyChevron" class="w-6 h-6 text-slate-400 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <div id="apiKeyContent" class="hidden">
-                        <div class="p-4 border-t border-slate-700 space-y-4">
-                            <div class="flex flex-col sm:flex-row gap-2">
-                                <input type="password" id="apiKeyInput" class="w-full p-3 bg-slate-700 border-2 border-slate-600 rounded-lg text-slate-300 focus:ring-2 focus:ring-pink-500" placeholder="API-Schlüssel hier einfügen...">
-                                <button id="saveApiKeyBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">Speichern</button>
-                            </div>
-                            <div class="text-xs text-slate-400 space-y-2">
-                                <p>
-                                    Keinen Schlüssel? <a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline hover:text-pink-400">Hier kostenlos erstellen.</a>
-                                    <button id="showTutorialBtn" class="underline hover:text-pink-400 ml-2">(Anleitung)</button>
-                                </p>
-                                <p class="font-semibold text-slate-300">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd" /></svg>
-                                    Datenschutzhinweis: Ihr Schlüssel wird NUR in Ihrem Browser gespeichert und NIEMALS an einen Server gesendet.
-                                </p>
-                            </div>
+    <!-- Header / Navigation -->
+    <nav id="main-header" class="header fixed top-0 left-0 w-full z-50 backdrop-blur-md border-b border-transparent transition-colors duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="https://aykolino.de" class="text-2xl font-bold tracking-tight text-white">
+                    Aykolino<span class="gradient-text">Apps</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="https://uebermich.aykolino.de" class="text-gray-300 hover:text-white transition-colors" data-translate-key="navAbout">Über mich</a>
+                    <a href="mailto:ayko.tiedtke2@yahoo.de" class="text-gray-300 hover:text-white transition-colors" data-translate-key="navContact">Kontakt</a>
+                    
+                    <!-- Sprachauswahl -->
+                    <div class="relative lang-switcher">
+                        <button id="lang-switcher-button" class="flex items-center text-gray-300 hover:text-white transition-colors">
+                            <img id="current-flag-desktop" src="https://flagcdn.com/w40/de.png" alt="DE" class="w-5 h-auto mr-2 rounded-sm object-cover">
+                            <span id="current-lang-desktop">DE</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                        <div id="lang-switcher-dropdown" class="lang-switcher-dropdown p-2 space-y-1">
+                            <a href="#" class="flex items-center w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md transition-colors" onclick="setLanguage('de', event)">
+                                <img src="https://flagcdn.com/w40/de.png" alt="German flag" class="w-5 h-auto mr-3 rounded-sm">
+                                <span>Deutsch</span>
+                            </a>
+                            <a href="#" class="flex items-center w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md transition-colors" onclick="setLanguage('en', event)">
+                                <img src="https://flagcdn.com/w40/gb.png" alt="British flag" class="w-5 h-auto mr-3 rounded-sm">
+                                <span>English</span>
+                            </a>
+                            <a href="#" class="flex items-center w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md transition-colors" onclick="setLanguage('fr', event)">
+                                <img src="https://flagcdn.com/w40/fr.png" alt="French flag" class="w-5 h-auto mr-3 rounded-sm">
+                                <span>Français</span>
+                            </a>
+                            <a href="#" class="flex items-center w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 rounded-md transition-colors" onclick="setLanguage('es', event)">
+                                    <img src="https://flagcdn.com/w40/es.png" alt="Spanish flag" class="w-5 h-auto mr-3 rounded-sm">
+                                <span>Español</span>
+                            </a>
                         </div>
                     </div>
                 </div>
+                
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900 absolute w-full left-0 top-20 border-b border-gray-800">
+            <a href="https://uebermich.aykolino.de" class="block py-3 px-4 text-sm text-gray-200 hover:bg-gray-800" data-translate-key="navAbout">Über mich</a>
+            <a href="mailto:ayko.tiedtke2@yahoo.de" class="block py-3 px-4 text-sm text-gray-200 hover:bg-gray-800" data-translate-key="navContact">Kontakt</a>
+            <div class="px-4 pt-3 pb-3 border-t border-gray-700">
+                <p class="text-xs text-gray-400 mb-2" data-translate-key="languageLabelMobile">Sprache:</p>
+                <div class="grid grid-cols-2 gap-2">
+                    <button class="flex items-center text-sm text-gray-200 p-2 hover:bg-gray-800 rounded" onclick="setLanguage('de', event)"><img src="https://flagcdn.com/w40/de.png" class="w-4 mr-2"> DE</button>
+                    <button class="flex items-center text-sm text-gray-200 p-2 hover:bg-gray-800 rounded" onclick="setLanguage('en', event)"><img src="https://flagcdn.com/w40/gb.png" class="w-4 mr-2"> EN</button>
+                    <button class="flex items-center text-sm text-gray-200 p-2 hover:bg-gray-800 rounded" onclick="setLanguage('fr', event)"><img src="https://flagcdn.com/w40/fr.png" class="w-4 mr-2"> FR</button>
+                    <button class="flex items-center text-sm text-gray-200 p-2 hover:bg-gray-800 rounded" onclick="setLanguage('es', event)"><img src="https://flagcdn.com/w40/es.png" class="w-4 mr-2"> ES</button>
+                </div>
+            </div>
+        </div>
+    </nav>
 
-                <!-- Input Section -->
-                <div class="space-y-6">
-                    <div>
-                        <label for="keywords" class="block text-lg font-semibold mb-3 text-white">Ihre Stichpunkte (jeder Punkt in einer neuen Zeile):</label>
-                        <textarea id="keywords" rows="6" class="w-full p-3 bg-slate-900 border-2 border-slate-700 rounded-lg text-slate-300 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-shadow" placeholder="z.B.
+    <!-- Spacer für Fixed Header -->
+    <div class="h-20"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow flex items-center justify-center p-4">
+        
+        <div class="w-full max-w-3xl mx-auto">
+            <div class="bg-slate-800 rounded-xl shadow-2xl p-6 sm:p-8 border border-slate-700">
+                <header class="text-center mb-8">
+                    <h1 class="text-3xl md:text-4xl font-bold text-white">SEO Text Generator</h1>
+                    <p class="text-slate-400 mt-2">Geben Sie Ihre Stichpunkte ein, wählen Sie eine Sprache und erhalten Sie einen optimierten Text.</p>
+                </header>
+
+                <div>
+                        <!-- API Key Section (Collapsible) -->
+                    <div class="bg-slate-900 border border-slate-700 rounded-lg mb-8">
+                        <button id="toggleApiKeyBtn" class="w-full p-4 flex justify-between items-center text-left focus:outline-none">
+                            <span class="text-lg font-semibold text-white">API-Schlüssel-Einstellungen</span>
+                            <svg id="apiKeyChevron" class="w-6 h-6 text-slate-400 transition-transform duration-300" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div id="apiKeyContent" class="hidden">
+                            <div class="p-4 border-t border-slate-700 space-y-4">
+                                <div class="flex flex-col sm:flex-row gap-2">
+                                    <input type="password" id="apiKeyInput" class="w-full p-3 bg-slate-700 border-2 border-slate-600 rounded-lg text-slate-300 focus:ring-2 focus:ring-pink-500" placeholder="API-Schlüssel hier einfügen...">
+                                    <button id="saveApiKeyBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-200">Speichern</button>
+                                </div>
+                                <div class="text-xs text-slate-400 space-y-2">
+                                    <p>
+                                        Keinen Schlüssel? <a href="https://aistudio.google.com/app/apikey" target="_blank" class="underline hover:text-pink-400">Hier kostenlos erstellen.</a>
+                                        <button id="showTutorialBtn" class="underline hover:text-pink-400 ml-2">(Anleitung)</button>
+                                    </p>
+                                    <p class="font-semibold text-slate-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd" /></svg>
+                                        Datenschutzhinweis: Ihr Schlüssel wird NUR in Ihrem Browser gespeichert und NIEMALS an einen Server gesendet.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input Section -->
+                    <div class="space-y-6">
+                        <div>
+                            <label for="keywords" class="block text-lg font-semibold mb-3 text-white">Ihre Stichpunkte (jeder Punkt in einer neuen Zeile):</label>
+                            <textarea id="keywords" rows="6" class="w-full p-3 bg-slate-900 border-2 border-slate-700 rounded-lg text-slate-300 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-shadow" placeholder="z.B.
 - Vorteile von Solarenergie
 - Kostenersparnis
 - Umweltfreundlich
 - Unabhängigkeit vom Stromnetz"></textarea>
-                    </div>
-
-                    <div>
-                        <label for="language" class="block text-lg font-semibold mb-3 text-white">Zielsprache:</label>
-                        <select id="language" class="w-full p-3 bg-slate-700 text-white border-2 border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200">
-                            <option value="German">Deutsch</option>
-                            <option value="English">Englisch</option>
-                            <option value="Spanish">Spanisch</option>
-                            <option value="French">Französisch</option>
-                            <option value="Italian">Italienisch</option>
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Action Button -->
-                <div class="mt-8 text-center">
-                    <button id="generateBtn" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 shadow-lg">
-                        <span id="btn-text">Text generieren</span>
-                    </button>
-                </div>
-
-                <!-- Loading Indicator -->
-                <div id="loader" class="hidden flex flex-col items-center justify-center mt-8">
-                    <div class="loader"></div>
-                    <p class="text-slate-400 mt-4">Generiere Text... Bitte haben Sie einen Moment Geduld.</p>
-                </div>
-
-                <!-- Output Section -->
-                <div id="resultContainer" class="hidden mt-10">
-                    <div class="border-t border-slate-700 pt-6">
-                        <div class="flex justify-between items-center mb-4">
-                            <h2 class="text-2xl font-bold text-white">Ihr SEO-optimierter Text</h2>
-                            <button id="copyBtn" class="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-1 px-3 rounded-md transition duration-200">
-                                Kopieren
-                            </button>
-                            <span id="copyFeedback" class="text-green-400 font-medium hidden">Kopiert!</span>
                         </div>
-                        <div id="output" class="p-4 bg-slate-900 border-2 border-slate-700 rounded-lg min-h-[200px] whitespace-pre-wrap text-slate-300 leading-relaxed"></div>
+
+                        <div>
+                            <label for="language" class="block text-lg font-semibold mb-3 text-white">Zielsprache:</label>
+                            <select id="language" class="w-full p-3 bg-slate-700 text-white border-2 border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200">
+                                <option value="German">Deutsch</option>
+                                <option value="English">Englisch</option>
+                                <option value="Spanish">Spanisch</option>
+                                <option value="French">Französisch</option>
+                                <option value="Italian">Italienisch</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Action Button -->
+                    <div class="mt-8 text-center">
+                        <button id="generateBtn" class="bg-pink-600 hover:bg-pink-700 text-white font-bold py-3 px-8 rounded-lg transition duration-200 transform hover:scale-105 shadow-lg">
+                            <span id="btn-text">Text generieren</span>
+                        </button>
+                    </div>
+
+                    <!-- Loading Indicator -->
+                    <div id="loader" class="hidden flex flex-col items-center justify-center mt-8">
+                        <div class="loader"></div>
+                        <p class="text-slate-400 mt-4">Generiere Text... Bitte haben Sie einen Moment Geduld.</p>
+                    </div>
+
+                    <!-- Output Section -->
+                    <div id="resultContainer" class="hidden mt-10">
+                        <div class="border-t border-slate-700 pt-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h2 class="text-2xl font-bold text-white">Ihr SEO-optimierter Text</h2>
+                                <button id="copyBtn" class="bg-slate-700 hover:bg-slate-600 text-white font-semibold py-1 px-3 rounded-md transition duration-200">
+                                    Kopieren
+                                </button>
+                                <span id="copyFeedback" class="text-green-400 font-medium hidden">Kopiert!</span>
+                            </div>
+                            <div id="output" class="p-4 bg-slate-900 border-2 border-slate-700 rounded-lg min-h-[200px] whitespace-pre-wrap text-slate-300 leading-relaxed"></div>
+                        </div>
+                    </div>
+
+                        <!-- Error Message -->
+                    <div id="errorContainer" class="hidden mt-8 text-center p-4 bg-red-900 bg-opacity-30 text-red-400 border border-red-500 rounded-lg">
+                        <p id="errorMessage"></p>
                     </div>
                 </div>
-
-                 <!-- Error Message -->
-                <div id="errorContainer" class="hidden mt-8 text-center p-4 bg-red-900 bg-opacity-30 text-red-400 border border-red-500 rounded-lg">
-                    <p id="errorMessage"></p>
-                </div>
-
-            </main>
+            </div>
         </div>
-        <footer class="mt-6 text-slate-500 text-sm flex justify-between items-center px-2">
-            <div>Version 1.04</div>
-            <div>©AykolinoApps</div>
-        </footer>
-    </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-10 border-t border-gray-800 flex-shrink-0 mt-auto">
+        <p class="text-gray-500" data-translate-key="footerText">
+            © <span id="year"></span> AykolinoApps. Mit Leidenschaft.
+        </p>
+        <p class="text-xs text-gray-600 mt-2" data-translate-key="footerDisclaimer">
+            Diese Domain wird nicht für gewerbliche Zwecke genutzt.
+        </p>
+    </footer>
 
     <!-- Tutorial Modal -->
     <div id="tutorialModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
         <div class="bg-slate-800 rounded-lg shadow-xl p-6 sm:p-8 border border-slate-700 max-w-2xl w-full max-h-[90vh] overflow-y-auto modal-scrollbar">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-white">Anleitung: Google API-Schlüssel erhalten</h2>
-                <button id="closeTutorialBtn" class="text-slate-400 hover:text-white">&times;</button>
+                <button id="closeTutorialBtn" class="text-slate-400 hover:text-white text-3xl leading-none">&times;</button>
             </div>
             <div class="space-y-5 text-slate-300">
                 <p>Folgen Sie diesen einfachen Schritten, um Ihren kostenlosen Google API-Schlüssel zu erhalten:</p>
@@ -404,45 +323,36 @@
                         <strong>Google AI Studio besuchen:</strong>
                         <br>
                         <span class="text-sm text-slate-400">
-                        Öffnen Sie den Link <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-pink-400 underline">aistudio.google.com/app/apikey</a> in einem neuen Tab. Melden Sie sich mit Ihrem Google-Konto an, falls Sie dazu aufgefordert werden.
+                        Öffnen Sie den Link <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-pink-400 underline">aistudio.google.com/app/apikey</a> in einem neuen Tab. Melden Sie sich mit Ihrem Google-Konto an.
                         </span>
                     </li>
                     <li>
                         <strong>Neuen API-Schlüssel erstellen:</strong>
                         <br>
                         <span class="text-sm text-slate-400">
-                        Klicken Sie auf die Schaltfläche <strong class="text-blue-400">"Create API key in new project"</strong>.
+                        Klicken Sie auf <strong class="text-blue-400">"Create API key in new project"</strong>.
                         </span>
                     </li>
                     <li>
                         <strong>API-Schlüssel kopieren:</strong>
                         <br>
                          <span class="text-sm text-slate-400">
-                        Es erscheint ein Fenster mit Ihrem neuen Schlüssel. Klicken Sie auf das Kopieren-Symbol, um den gesamten Schlüssel in Ihre Zwischenablage zu kopieren.
+                        Klicken Sie auf das Kopieren-Symbol beim neu erstellten Schlüssel.
                          </span>
                     </li>
                     <li>
-                        <strong>Schlüssel einfügen und speichern:</strong>
+                        <strong>Schlüssel einfügen:</strong>
                         <br>
                          <span class="text-sm text-slate-400">
-                        Kehren Sie zu dieser Seite zurück, fügen Sie den kopierten Schlüssel in das Eingabefeld ein und klicken Sie auf "Speichern". Fertig!
+                        Fügen Sie den Schlüssel hier in das Feld ein und klicken Sie auf "Speichern".
                          </span>
                     </li>
                 </ol>
-                <div class="mt-6 p-3 bg-slate-700 rounded-lg text-sm">
-                     <p class="font-semibold text-slate-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block mr-1" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 8a6 6 0 11-12 0 6 6 0 0112 0zM8.707 9.293a1 1 0 00-1.414 1.414L8.586 12l-1.293 1.293a1 1 0 101.414 1.414L10 13.414l1.293 1.293a1 1 0 001.414-1.414L11.414 12l1.293-1.293a1 1 0 00-1.414-1.414L10 10.586 8.707 9.293zM10 18a8 8 0 100-16 8 8 0 000 16z" clip-rule="evenodd" /></svg>
-                        Wichtiger Datenschutzhinweis:
-                    </p>
-                    <p class="text-slate-300 mt-1">
-                        Ihr API-Schlüssel wird ausschließlich in Ihrem Browser (`localStorage`) gespeichert. Er verlässt niemals Ihren Computer und wird an keinen Server gesendet.
-                    </p>
-                </div>
             </div>
         </div>
     </div>
 
-
+    <!-- LOGIK -->
     <script>
         // DOM Elements
         const apiKeyInput = document.getElementById('apiKeyInput');
@@ -484,7 +394,6 @@
             }
         });
 
-
         // --- API Key Logic ---
         const loadApiKey = () => {
             const savedKey = localStorage.getItem('googleApiKey');
@@ -503,9 +412,7 @@
             }
         });
 
-        // Load API key on page start
         loadApiKey();
-
 
         // --- Gemini API Call Logic ---
         const callGeminiApi = async (prompt, retries = 3, delay = 1000) => {
@@ -513,7 +420,12 @@
             if (!apiKey) {
                 throw new Error("Bitte speichern Sie zuerst einen gültigen Google API-Schlüssel.");
             }
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            // HIER WAR DER FEHLER: Das Modell "gemini-2.5-flash-preview-05-20" existiert nicht öffentlich.
+            // KORREKTUR: Wir nutzen das aktuell verfügbare Preview-Modell.
+            // FALLS DAS NICHT GEHT: Ändere "gemini-2.5-flash-preview-09-2025" zu "gemini-1.5-flash"
+            const modelName = "gemini-2.5-flash-preview-09-2025"; 
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
 
             const systemPrompt = `Act as an expert SEO copywriter. Your task is to write a well-structured, fluent, and SEO-optimized informational text based on the provided bullet points. The text should be engaging for readers and optimized for search engines. Use headings (like H2, H3), paragraphs, and lists where appropriate to structure the content logically. Integrate the given keywords naturally throughout the text. The final output must be only the generated text, without any additional explanations or introductions from you. The output language must be the one specified by the user.`;
 
@@ -534,7 +446,10 @@
 
                     if (!response.ok) {
                         if (response.status === 403 || response.status === 400) {
-                             throw new Error(`API Error ${response.status}: Zugriff verweigert. Überprüfen Sie bitte Ihren API-Schlüssel.`);
+                             throw new Error(`API Error ${response.status}: Zugriff verweigert. API-Schlüssel prüfen.`);
+                        }
+                        if (response.status === 404) {
+                             throw new Error(`API Error 404: Modell nicht gefunden. Bitte Code prüfen.`);
                         }
                         throw new Error(`API Error: ${response.status} ${response.statusText}`);
                     }
@@ -558,7 +473,6 @@
         };
 
         // --- UI Logic ---
-
         const setLoadingState = (isLoading) => {
             if (isLoading) {
                 generateBtn.disabled = true;
@@ -585,8 +499,6 @@
             resultContainer.classList.remove('hidden');
             resultContainer.classList.add('fade-in');
         };
-
-        // --- Event Listeners ---
 
         generateBtn.addEventListener('click', async () => {
             const keywords = keywordsInput.value.trim();
@@ -628,7 +540,7 @@
             }, 2000);
         });
 
-       // Marquee Title Effect
+        // Marquee Title
         (function() {
             const originalTitle = document.title + " ";
             let titleText = originalTitle;
@@ -636,39 +548,10 @@
                 titleText = titleText.substring(1, titleText.length) + titleText.substring(0, 1);
                 document.title = titleText;
             }
-            setInterval(marquee, 300); // Speed in milliseconds
+            setInterval(marquee, 300);
         })();
-        
-    </script>
-</body>
-</html>
-        <!-- *********************************************** -->
-        <!-- * ENDE DES NEUEN INHALTS             * -->
-        <!-- *********************************************** -->
 
-
-        <!-- ÜBERNOMMEN: Footer -->
-        <!-- 
-          FIX (Version 7):
-          - 'mt-20' (großer Abstand) ENTFERNT.
-          - 'py-10' (normaler Abstand) BEIBEHALTEN.
-          - 'flex-shrink-0' HINZUGEFÜGT (sicherheitshalber).
-        -->
-        <footer class="text-center py-10 border-t border-gray-800 flex-shrink-0">
-            <p class="text-gray-500" data-translate-key="footerText">
-                © <span id="year"></span> AykolinoApps. Mit Leidenschaft.
-            </p>
-            <p class="text-xs text-gray-600 mt-2" data-translate-key="footerDisclaimer">
-                Diese Domain wird nicht für gewerbliche Zwecke genutzt.
-            </p>
-        </footer>
-    </div>
-
-    <!-- ÜBERNOMMEN: JavaScript für Sprachauswahl & Header -->
-    <script>
-        // --- Translations-Objekt ---
-        // HINWEIS: Du kannst hier Einträge entfernen, wenn sie auf der neuen Seite nicht benötigt werden
-        // (z.B. utmTitle, htmlDesc, etc.), aber die 'nav'-Einträge und 'footer'-Einträge sind wichtig.
+        // --- Translations / Header Logic ---
         const translations = {
             'de': {
                 langName: 'DE',
@@ -676,21 +559,6 @@
                 navAbout: 'Über mich',
                 navContact: 'Kontakt',
                 languageLabelMobile: 'Sprache:',
-                // --- Alte Einträge (können entfernt oder für neue Inhalte genutzt werden) ---
-                heroTitle: 'Innovative <span class="gradient-text">Web-Tools</span> für <a href="https://usedparts.mercedes-benz.de/startseite/" style="color: white; text-decoration: underline;">MBUPS</a>',
-                heroSubtitle1: 'Hey! Ich bin Ayko, MBUPS-Praktikant der nützliche und einfach zu bedienende Web-Apps für euer Unternehmen entwickelt.',
-                heroSubtitle2: 'Meine Tools helfen dir, Arbeitszeit zu sparen und deinen Workflow zu automatisieren – ganz ohne komplizierte Technik.',
-                toolsTitle: 'Meine MBUPS-Tools',
-                utmTitle: 'UTM-Generator',
-                utmDesc: 'Erstellt schnell und fehlerfrei UTM-Parameter für präzises Kampagnen-Tracking.',
-                htmlTitle: 'HTML-Translator',
-                htmlDesc: 'Übersetzt Texte innerhalb von HTML-Code, ohne die Struktur zu zerstören.',
-                excelTitle: 'Excel-Comparison',
-                excelDesc: 'Vergleicht zwei Excel-Tabellen und hebt die Unterschiede deutlich hervor.',
-                anTitle: 'Articlenumber-Generator',
-                anDesc: 'Generiert einzigartige und formatierte Artikelnummern nach definierbaren Mustern.',
-                viewProject: 'Ansehen →',
-                // --- Footer Einträge (wichtig) ---
                 footerText: '© <span id="year-footer"></span> AykolinoApps. Mit Leidenschaft.',
                 footerDisclaimer: 'Diese Domain wird nicht für gewerbliche Zwecke genutzt.'
             },
@@ -700,19 +568,6 @@
                 navAbout: 'About Me',
                 navContact: 'Contact',
                 languageLabelMobile: 'Language:',
-                heroTitle: 'Innovative <span class="gradient-text">Web Tools</span> for <a href="https://usedparts.mercedes-benz.de/startseite/" style="color: white; text-decoration: underline;">MBUPS</a>',
-                heroSubtitle1: "Hey! I'm Ayko, an MBUPS intern developing useful and easy-to-use web apps for your company.",
-                heroSubtitle2: 'My tools help you save time and automate your workflow - without any complicated technology.',
-                toolsTitle: 'My MBUPS-Tools',
-                utmTitle: 'UTM-Generator',
-                utmDesc: 'Quickly and accurately creates UTM parameters for precise campaign tracking.',
-                htmlTitle: 'HTML-Translator',
-                htmlDesc: 'Translates text within HTML code without breaking the structure.',
-                excelTitle: 'Excel-Comparison',
-                excelDesc: 'Compares two Excel sheets and clearly highlights the differences.',
-                anTitle: 'Article Number-Generator',
-                anDesc: 'Generates unique and formatted article numbers according to definable patterns.',
-                viewProject: 'View →',
                 footerText: '© <span id="year-footer"></span> AykolinoApps. With passion.',
                 footerDisclaimer: 'This domain is not used for commercial purposes.'
             },
@@ -722,19 +577,6 @@
                 navAbout: 'À propos de moi',
                 navContact: 'Contact',
                 languageLabelMobile: 'Langue:',
-                heroTitle: 'Outils Web <span class="gradient-text">Innovants</span> pour <a href="https://usedparts.mercedes-benz.de/startseite/" style="color: white; text-decoration: underline;">MBUPS</a>',
-                heroSubtitle1: "Salut ! Je suis Ayko, stagiaire chez MBUPS, et je développe des applications web utiles et simples d'utilisation pour votre entreprise.",
-                heroSubtitle2: "Mes outils vous aident à gagner du temps et à automatiser votre flux de travail, sans aucune technologie compliquée.",
-                toolsTitle: 'Mes outils MBUPS',
-                utmTitle: 'Générateur UTM',
-                utmDesc: 'Crée rapidement et sans erreur des paramètres UTM pour un suivi de campagne précis.',
-                htmlTitle: 'Traducteur HTML',
-                htmlDesc: 'Traduit le texte dans le code HTML sans en détruire la structure.',
-                excelTitle: 'Comparateur Excel',
-                excelDesc: 'Compare deux feuilles Excel et met clairement en évidence les différences.',
-                anTitle: "Générateur de numéros d'article",
-                anDesc: "Génère des numéros d'article uniques et formatés selon des modèles définissables.",
-                viewProject: 'Voir →',
                 footerText: '© <span id="year-footer"></span> AykolinoApps. Avec passion.',
                 footerDisclaimer: "Ce domaine n'est pas utilisé à des fins commerciales."
             },
@@ -744,44 +586,25 @@
                 navAbout: 'Sobre mí',
                 navContact: 'Contacto',
                 languageLabelMobile: 'Idioma:',
-                heroTitle: 'Herramientas Web <span class="gradient-text">Innovadoras</span> para <a href="https://usedparts.mercedes-benz.de/startseite/" style="color: white; text-decoration: underline;">MBUPS</a>',
-                heroSubtitle1: '¡Hola! Soy Ayko, un pasante de MBUPS que desarrolla aplicaciones web útiles y fáciles de usar para su empresa.',
-                heroSubtitle2: 'Mis herramientas le ayudan a ahorrar tiempo y automatizar su flujo de trabajo, sin tecnología complicada.',
-                toolsTitle: 'Mis herramientas de MBUPS',
-                utmTitle: 'Generador UTM',
-                utmDesc: 'Crea parámetros UTM de forma rápida y sin errores para un seguimiento preciso de campañas.',
-                htmlTitle: 'Traductor HTML',
-                htmlDesc: 'Traduce texto dentro del código HTML sin romper la estructura.',
-                excelTitle: 'Comparador de Excel',
-                excelDesc: 'Compara dos hojas de Excel y resalta claramente las diferencias.',
-                anTitle: 'Generador de números de artículo',
-                anDesc: 'Genera números de artículo únicos y formateados según patrones definibles.',
-                viewProject: 'Ver →',
                 footerText: '© <span id="year-footer"></span> AykolinoApps. Con pasión.',
                 footerDisclaimer: 'Este dominio no se utiliza con fines comerciales.'
             }
         };
 
-        // --- Haupt-Logik (unverändert übernommen) ---
         document.addEventListener('DOMContentLoaded', () => {
-
-            // Elemente abrufen
             const langSwitcherButton = document.getElementById('lang-switcher-button');
             const langSwitcherDropdown = document.getElementById('lang-switcher-dropdown');
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             const header = document.getElementById('main-header');
 
-            // Funktion zum Setzen der Sprache
             window.setLanguage = function(lang, event) {
                 if (event) event.preventDefault();
                 if (!translations[lang]) return;
 
-                // Sprache im Local Storage speichern und auf HTML-Tag anwenden
                 localStorage.setItem('language', lang);
                 document.documentElement.lang = lang;
 
-                // Alle Elemente mit `data-translate-key` durchgehen und übersetzen
                 document.querySelectorAll('[data-translate-key]').forEach(el => {
                     const key = el.getAttribute('data-translate-key');
                     if (translations[lang][key]) {
@@ -789,11 +612,9 @@
                     }
                 });
 
-                // Jahreszahl im Footer aktualisieren (nach Übersetzung)
                 const yearSpan = document.getElementById('year') || document.getElementById('year-footer');
                 if (yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-                // Anzeige der Sprachauswahl aktualisieren
                 const currentLangDesktop = document.getElementById('current-lang-desktop');
                 const currentFlagDesktop = document.getElementById('current-flag-desktop');
                 if (currentLangDesktop) currentLangDesktop.textContent = translations[lang].langName;
@@ -802,18 +623,17 @@
                     currentFlagDesktop.alt = `Flag of ${lang}`;
                 }
 
-                // Dropdown und mobiles Menü schließen
                 if(langSwitcherDropdown) langSwitcherDropdown.classList.remove('open');
                 if(mobileMenu) mobileMenu.classList.add('hidden');
             }
 
-            // Gespeicherte Sprache beim Laden der Seite anwenden
             const savedLang = localStorage.getItem('language') || 'de';
             window.setLanguage(savedLang);
+            
+            // Setze Jahr initial, falls es nicht durch setLanguage gesetzt wurde
+            const yearSpan = document.getElementById('year');
+            if(yearSpan) yearSpan.textContent = new Date().getFullYear();
 
-            // --- Event Listeners ---
-
-            // Sprachauswahl Dropdown (Desktop)
             if (langSwitcherButton) {
                 langSwitcherButton.addEventListener('click', (event) => {
                     event.stopPropagation();
@@ -821,21 +641,18 @@
                 });
             }
 
-            // Klick ausserhalb des Dropdowns schliesst es
             window.addEventListener('click', () => {
                 if (langSwitcherDropdown && langSwitcherDropdown.classList.contains('open')) {
                     langSwitcherDropdown.classList.remove('open');
                 }
             });
             
-            // Mobiles Menü
             if (mobileMenuButton) {
                 mobileMenuButton.addEventListener('click', () => {
                     mobileMenu.classList.toggle('hidden');
                 });
             }
 
-            // Header Scroll-Effekt
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 10) {
                     header.classList.add('header-scrolled');
@@ -843,13 +660,7 @@
                     header.classList.remove('header-scrolled');
                 }
             });
-
         });
     </script>
 </body>
 </html>
-
-
-
-
-
